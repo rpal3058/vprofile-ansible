@@ -23,7 +23,7 @@
         az: "{{az1}}"
         map_public: yes
         tags:
-          Name: Public Subnet 1
+          Name: Vprofile Public Subnet 1
       register: pubSub1Out  
 
     - name: Create public subnet 2 
@@ -35,7 +35,7 @@
         az: "{{az2}}"
         map_public: yes
         tags:
-          Name: Public Subnet 2
+          Name: Vprofile Public Subnet 2
       register: pubSub2Out  
       
     - name: Create public subnet 3 
@@ -47,7 +47,7 @@
         az: "{{az3}}"
         map_public: yes
         tags:
-          Name: Public Subnet 3
+          Name: Vprofile Public Subnet 3
       register: pubSub3Out  
 
     - name: Create private subnet 1
@@ -58,7 +58,7 @@
         cidr: "{{pvtSub1CIDR}}"
         az: "{{az1}}"
         tags:
-          Name: Private Subnet 1
+          Name: Vprofile Private Subnet 1
       register: pvtSub1Out  
 
     - name: Create private subnet 2
@@ -69,7 +69,7 @@
         cidr: "{{pvtSub2CIDR}}"
         az: "{{az2}}"
         tags:
-          Name: Private Subnet 2
+          Name: Vprofile Private Subnet 2
       register: pvtSub2Out  
 
     - name: Create private subnet 3
@@ -80,5 +80,5 @@
         cidr: "{{pvtSub3CIDR}}"
         az: "{{az3}}"
         tags:
-          Name: Private Subnet 3
+          Name: Vprofile Private Subnet 3
       register: pvtSub3Out  
