@@ -1,0 +1,21 @@
+#VPC IP block
+vpcCIDR: '172.16.0.0/16'
+
+#Subnet IP block
+pubSub1: '172.16.1.0/24'
+pubSub2: '172.16.2.0/24'
+pubSub3: '172.16.3.0/24'
+pvtSub1: '172.16.1.0/24'
+pvtSub2: '172.16.2.0/24'
+pvtSub3: '172.16.3.0/24'
+
+#Region
+region: 'ap-south-1'
+
+#Availablility Zones
+az1: 'ap-south-1a'
+az2: 'ap-south-2a'
+az3: 'ap-south-3a'
+
+
+

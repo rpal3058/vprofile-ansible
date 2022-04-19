@@ -1,0 +1,10 @@
+---
+- name: setting VPC  
+  hosts: localhost
+  gather_facts: 
+
+  tasks:
+  - includes_var: vpc_variable.yml
+
+
+ 
