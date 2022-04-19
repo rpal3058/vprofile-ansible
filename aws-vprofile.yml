@@ -15,4 +15,4 @@
       register: vpcOut
 
     - debug:
-        var: vpcout  
+        var: vpcOut  
