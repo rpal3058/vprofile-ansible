@@ -5,9 +5,9 @@
 
   tasks:
   - include_vars: 
-      file: vpc_variable.yml
+      file: var/vpc_variable.yml
       
   - debug:
-      var: {{vpcCIDR}}
+      msg: "{{vpcCIDR}}"
 
  
