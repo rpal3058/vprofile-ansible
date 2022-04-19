@@ -1,12 +1,12 @@
 ---
 - name: setting VPC  
   hosts: localhost
-  gather_facts: 
+  gather_facts: no
 
   tasks:
   - include_vars: 
       file: vpc_variable.yml
-      name: vpcVar
+      register: vpcVar
 
   - debug:
       var: vpcVar
