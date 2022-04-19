@@ -16,6 +16,7 @@
 
     - name: Create public subnet 1 
       ec2_vpc_subnet:
+        region: "{{region}}"
         state: "{{state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
         cidr: "{{pubSub1CIDR}}"
@@ -27,6 +28,7 @@
 
     - name: Create public subnet 2 
       ec2_vpc_subnet:
+        region: "{{region}}"
         state: "{{state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
         cidr: "{{pubSub2CIDR}}"
@@ -38,6 +40,7 @@
       
     - name: Create public subnet 3 
       ec2_vpc_subnet:
+        region: "{{region}}"
         state: "{{state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
         cidr: "{{pubSub3CIDR}}"
@@ -49,6 +52,7 @@
 
     - name: Create private subnet 1
       ec2_vpc_subnet:
+        region: "{{region}}"
         state: "{{state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
         cidr: "{{pvtSub1CIDR}}"
@@ -59,6 +63,7 @@
 
     - name: Create private subnet 2
       ec2_vpc_subnet:
+        region: "{{region}}"
         state: "{{state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
         cidr: "{{pvtSub2CIDR}}"
@@ -69,6 +74,7 @@
 
     - name: Create private subnet 3
       ec2_vpc_subnet:
+        region: "{{region}}"
         state: "{{state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
         cidr: "{{pvtSub3CIDR}}"
