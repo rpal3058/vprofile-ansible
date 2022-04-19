@@ -5,7 +5,7 @@
       include_vars: var/vpc_variable.yml
 
     - name: create a VPC with dedicated tenancy and a couple of tags
-      amazon.aws.ec2_vpc_net:
+      ec2_vpc_net:
         name: "{{vpcName}}"
         cidr_block: "{{vpcCIDR}}"
         region: "{{region}}"
