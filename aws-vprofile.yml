@@ -3,8 +3,16 @@
   tasks:
     - name: Importing vpc variables 
       include_vars: var/vpc_variable.yml
-  
-    - debug:
-        msg: "{{vpcCIDR}}"
 
- 
+    - name: create a VPC with dedicated tenancy and a couple of tags
+      amazon.aws.ec2_vpc_net:
+        name: "{{vpcName}}"
+        cidr_block: "{{vpcCIDR}}"
+        region: "{{region}}"
+        state: "{{state}}"
+        dns_support: yes
+        dns_hostnames: yes
+      register: vpcOut
+
+    - debug:
+        var: vpcout  

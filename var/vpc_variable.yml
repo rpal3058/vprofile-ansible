@@ -1,3 +1,5 @@
+#VPC Name
+vpcName: vprfile_vpc
 #VPC IP block
 vpcCIDR: '172.16.0.0/16'
 
@@ -17,5 +19,6 @@ az1: 'ap-south-1a'
 az2: 'ap-south-2a'
 az3: 'ap-south-3a'
 
+state: present
 
 
