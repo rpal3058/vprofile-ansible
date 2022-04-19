@@ -4,7 +4,7 @@
     - name: Importing vpc variables 
       include_vars: var/vpc_variable.yml
   
-    # - debug:
-    #     msg: "{{vpcCIDR}}"
+    - debug:
+        msg: "{{vpcCIDR}}"
 
  
