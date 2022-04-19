@@ -1,13 +1,10 @@
----
-- name: setting VPC  
-  hosts: localhost
-  gather_facts: no
-
+- hosts: localhost
+  gather_facts: False
   tasks:
-  - include_vars: 
-      file: var/vpc_variable.yml
-      
-  - debug:
+    - name: Importing vpc variables 
+      include_vars: var/vpc_variable.yml
+  
+    - debug:
       msg: "{{vpcCIDR}}"
 
  
