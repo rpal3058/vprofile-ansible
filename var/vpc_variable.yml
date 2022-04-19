@@ -16,8 +16,8 @@ region: 'ap-south-1'
 
 #Availablility Zones
 az1: 'ap-south-1a'
-az2: 'ap-south-2a'
-az3: 'ap-south-3a'
+az2: 'ap-south-1b'
+az3: 'ap-south-1c'
 
 state: present
 
