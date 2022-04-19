@@ -83,9 +83,21 @@
           Name: Vprofile Private Subnet 3
       register: pvtSub3Out  
 
-    - name: Saving registers to a file 
-      local_action:
-        module: copy
-        content: "{{ vpcOut | pvtSub3Out |to_nice_yaml }}"
-        dest: "./details.yml"
+    - debug:
+        var: pvtSub3Out
+
+    # - name: Set up public subnet route table
+    #   community.aws.ec2_vpc_route_table:
+    #     vpc_id: "{{vpcOut.vpc.id}}"
+    #     region: "{{region}}"
+    #     tags:
+    #       Name: Public Route table for 1st availability zone
+    #     subnets:
+    #       - "{{ .subnet.id }}"
+    #       - "{{ frontend_subnet.subnet.id }}"
+    #       - "{{ vpn_subnet.subnet_id }}"
+    #     routes:
+    #       - dest: 0.0.0.0/0
+    #         gateway_id: "{{ igw.gateway_id }}"
+    #     register: public_route_table
       
