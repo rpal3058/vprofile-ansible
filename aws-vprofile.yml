@@ -4,7 +4,11 @@
   gather_facts: 
 
   tasks:
-  - includes_var: vpc_variable.yml
+  - includes_var: 
+      file: vpc_variable.yml
+      name: vpcVar
 
+  - debug:
+      var: vpcVar
 
  
