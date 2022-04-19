@@ -2,7 +2,7 @@
   gather_facts: False
   tasks:
     - name: Importing vpc variables 
-      include_vars: var/vpc_variable.yml
+      include_vars: ./var/vpc_variable.yml
   
     - debug:
         msg: "{{vpcCIDR}}"
