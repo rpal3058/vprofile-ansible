@@ -86,6 +86,6 @@
     - name: Saving registers to a file 
       local_action:
         module: copy
-        content: "{{ vpcOut |to_nice_yaml }}"
+        content: "{{ vpcOut | pvtSub3Out |to_nice_yaml }}"
         dest: "./details.yml"
       
