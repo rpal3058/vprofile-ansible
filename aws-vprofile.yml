@@ -23,7 +23,7 @@
         map_public: yes
         tags:
           Name: Public Subnet 1
-        register: pubSub1Out  
+      register: pubSub1Out  
 
     - name: Create public subnet 2 
       ec2_vpc_subnet:
@@ -34,7 +34,7 @@
         map_public: yes
         tags:
           Name: Public Subnet 2
-        register: pubSub2Out  
+      register: pubSub2Out  
       
     - name: Create public subnet 3 
       ec2_vpc_subnet:
@@ -45,7 +45,7 @@
         map_public: yes
         tags:
           Name: Public Subnet 3
-        register: pubSub3Out  
+      register: pubSub3Out  
 
     - name: Create private subnet 1
       ec2_vpc_subnet:
@@ -55,7 +55,7 @@
         az: "{{az1}}"
         tags:
           Name: Private Subnet 1
-        register: pvtSub1Out  
+      register: pvtSub1Out  
 
     - name: Create private subnet 2
       ec2_vpc_subnet:
@@ -65,7 +65,7 @@
         az: "{{az2}}"
         tags:
           Name: Private Subnet 2
-        register: pvtSub2Out  
+      register: pvtSub2Out  
 
     - name: Create private subnet 3
       ec2_vpc_subnet:
@@ -75,4 +75,4 @@
         az: "{{az3}}"
         tags:
           Name: Private Subnet 3
-        register: pvtSub3Out  
+      register: pvtSub3Out  
