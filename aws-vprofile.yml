@@ -6,9 +6,8 @@
   tasks:
   - include_vars: 
       file: vpc_variable.yml
-      register: vpcVar
-
+      
   - debug:
-      var: vpcVar
+      var: {{vpcCIDR}}
 
  
