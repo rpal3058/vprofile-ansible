@@ -82,3 +82,10 @@
         tags:
           Name: Vprofile Private Subnet 3
       register: pvtSub3Out  
+
+    - name: Saving registers to a file 
+      local_action:
+        module: copy
+        content: "{{ vpcOut |to_nice_yaml }}"
+        dest: "./details.yml"
+      
