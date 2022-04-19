@@ -5,6 +5,6 @@
       include_vars: var/vpc_variable.yml
   
     - debug:
-      msg: "{{vpcCIDR}}"
+        msg: "{{vpcCIDR}}"
 
  
