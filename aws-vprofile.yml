@@ -104,7 +104,7 @@
           - "{{pubSub3Out.subnet.id}}"
         routes:
           - dest: 0.0.0.0/0
-            gateway_id: "{{ igw.gateway_id }}"
+            gateway_id: "{{ igwOut.gateway_id }}"
       register: pubRTOut   
     
     - name: Create new nat gateway in public subnets
