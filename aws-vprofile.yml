@@ -163,7 +163,7 @@
 
     - name: copying all the variable to a file
       ansible.builtin.copy:
-        content:"VPC ID: {{vpcOut.vpc.id}} /n Public Subnet 1: {{pubSub1Out.subnet.id}}"  
+        content:"Vpc: {{vpcOut.vpc.id}}/nPublicSubnet1: {{pubSub1Out.subnet.id}}"  
 
         
 
