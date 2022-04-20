@@ -83,21 +83,53 @@
           Name: Vprofile Private Subnet 3
       register: pvtSub3Out  
 
-    - debug:
-        var: pvtSub3Out
+    - name: Create Internet gateway with tags
+      ec2_vpc_igw:
+        vpc_id: "{{vpcOut.vpc.id}}"
+        region: "{{region}}"
+        state: "{{state}}"
+        tags:
+            Name: Vprofile IGW
+      register: igwOut  
 
-    # - name: Set up public subnet route table
-    #   community.aws.ec2_vpc_route_table:
-    #     vpc_id: "{{vpcOut.vpc.id}}"
-    #     region: "{{region}}"
-    #     tags:
-    #       Name: Public Route table for 1st availability zone
-    #     subnets:
-    #       - "{{ .subnet.id }}"
-    #       - "{{ frontend_subnet.subnet.id }}"
-    #       - "{{ vpn_subnet.subnet_id }}"
-    #     routes:
-    #       - dest: 0.0.0.0/0
-    #         gateway_id: "{{ igw.gateway_id }}"
-    #     register: public_route_table
-      
+    - name: Set up public subnet route table 
+      ec2_vpc_route_table:
+        vpc_id: "{{vpcOut.vpc.id}}"
+        region: "{{region}}"
+        tags:
+          Name: Vprofile publicRT
+        subnets:
+          - "{{pubSub1Out.subnet.id}}"
+          - "{{pubSub2Out.subnet.id}}"
+          - "{{pubSub3Out.subnet.id}}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ igw.gateway_id }}"
+      register: pubRTOut   
+    
+    - name: Create new nat gateway in public subnets
+      ec2_vpc_nat_gateway:
+        state: "{{present}}"
+        subnet_id: 
+          - "{{pubSub1Out.subnet.id}}"
+        region: "{{region}}"
+        tag: 
+          Name: Vprofile NAT
+        if_exist_do_not_create: no
+        wait: true
+      register: natOut
+
+    - name: Set up private subnet route table 
+      ec2_vpc_route_table:
+        vpc_id: "{{vpcOut.vpc.id}}"
+        region: "{{region}}"
+        tags:
+          Name: Vprofile publicRT
+        subnets:
+          - "{{pvtSub1Out.subnet.id}}"
+          - "{{pvtSub2Out.subnet.id}}"
+          - "{{pvtSub3Out.subnet.id}}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ natOut.nat_gateway_id }}"
+      register: pvtRTOut
