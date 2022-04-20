@@ -115,7 +115,6 @@
         region: "{{region}}"
         tag: 
           Name: Vprofile NAT
-        if_exist_do_not_create: true
         wait: true
       register: natOut
 
