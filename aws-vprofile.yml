@@ -96,7 +96,8 @@
       ec2_vpc_route_table:
         vpc_id: "{{vpcOut.vpc.id}}"
         region: "{{region}}"
-        tags:
+        if_exist_do_not_create: no
+        resource_tags:
           Name: Vprofile publicRT
         subnets:
           - "{{pubSub1Out.subnet.id}}"
@@ -123,6 +124,7 @@
       ec2_vpc_route_table:
         vpc_id: "{{vpcOut.vpc.id}}"
         region: "{{region}}"
+        if_exist_do_not_create: no
         tags:
           Name: Vprofile publicRT
         subnets:
