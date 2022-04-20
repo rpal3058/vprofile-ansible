@@ -131,7 +131,8 @@
             gateway_id: "{{ natOut.nat_gateway_id }}"
       register: pvtRTOut
 
-    - vars:
+    - name: assigning the id of the resources to variables  
+      set_fact:
         vpcID: vpcOut.vpc.id
         pubSub1ID: pubSub1Out.subnet.id
         pubSub2ID: pubSub2Out.subnet.id
