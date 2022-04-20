@@ -112,8 +112,6 @@
         state: "{{state}}"
         subnet_id: "{{pubSub1Out.subnet.id}}"
         region: "{{region}}"
-        resource_tags:
-          Name: Vprofile NAT
         if_exist_do_not_create: true
         wait: true
       register: natOut
