@@ -144,7 +144,7 @@
     #     natID:  natOut.nat_gateway_id 
     #     PvtRtID: pvtRTOut.id
 
-    - Debug:
+    - debug:
         var: "{{items}}"
       loop:
         - vpcID 
