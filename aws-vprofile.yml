@@ -109,7 +109,7 @@
     
     - name: Create new nat gateway in public subnets
       ec2_vpc_nat_gateway:
-        state: "{{present}}"
+        state: "{{state}}"
         subnet_id: 
           - "{{pubSub1Out.subnet.id}}"
         region: "{{region}}"
