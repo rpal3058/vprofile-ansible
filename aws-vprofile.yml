@@ -146,21 +146,24 @@
         - natOut.nat_gateway_id 
         - pvtRTOut.route_table.id
 
-    # - name: assigning the id of the resources to variables  
-    #   set_fact:
-    #     vpcID: "{{vpcOut.vpc.id}}"
-    #     pubSub1ID: "{{pubSub1Out.subnet.id}}"
-    #     pubSub2ID: "{{pubSub2Out.subnet.id}}"
-    #     pubSub3ID: "{{pubSub3Out.subnet.id}}"
-    #     pvtSub1ID: "{{pvtSub1Out.subnet.id}}"
-    #     pvtSub2ID: "{{pvtSub2Out.subnet.id}}"
-    #     pvtSub3ID: "{{pvtSub3Out.subnet.id}}"
-    #     igwID: "{{igwOut.gateway_id}}"
-    #     pubRtID: "{{pubRTOut.route_table.id}}"
-    #     natID:  "{{natOut.nat_gateway_id}}"
-    #     PvtRtID: "{{pvtRTOut.route_table.id}}"
-    #     cacheable: yes
+    - name: setting fact for this playbook  
+      set_fact:
+        vpcID: "{{vpcOut.vpc.id}}"
+        pubSub1ID: "{{pubSub1Out.subnet.id}}"
+        pubSub2ID: "{{pubSub2Out.subnet.id}}"
+        pubSub3ID: "{{pubSub3Out.subnet.id}}"
+        pvtSub1ID: "{{pvtSub1Out.subnet.id}}"
+        pvtSub2ID: "{{pvtSub2Out.subnet.id}}"
+        pvtSub3ID: "{{pvtSub3Out.subnet.id}}"
+        igwID: "{{igwOut.gateway_id}}"
+        pubRtID: "{{pubRTOut.route_table.id}}"
+        natID:  "{{natOut.nat_gateway_id}}"
+        PvtRtID: "{{pvtRTOut.route_table.id}}"
+        cacheable: yes
 
+    - name: copying all the variable to a file
+      ansible.builtin.copy:
+        content:"VPC ID: {{vpcOut.vpc.id}} /n Public Subnet 1: {{pubSub1Out.subnet.id}}"  
 
         
 
