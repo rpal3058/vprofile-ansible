@@ -164,7 +164,7 @@
     - name: copying all the variable to a file
       ansible.builtin.copy:
         content: "Vpc:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}"
-        dest: /details.txt  
+        dest: ./details.txt  
 
         
 
