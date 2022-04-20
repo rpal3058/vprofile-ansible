@@ -113,8 +113,6 @@
         subnet_id: 
           - "{{pubSub1Out.subnet.id}}"
         region: "{{region}}"
-        tag: 
-          Name: Vprofile NAT
         wait: true
       register: natOut
 
