@@ -96,7 +96,7 @@
       ec2_vpc_route_table:
         vpc_id: "{{vpcOut.vpc.id}}"
         region: "{{region}}"
-        if_exist_do_not_create: no
+        if_exist_do_not_create: true
         resource_tags:
           Name: Vprofile publicRT
         subnets:
@@ -116,7 +116,7 @@
         region: "{{region}}"
         tag: 
           Name: Vprofile NAT
-        if_exist_do_not_create: no
+        if_exist_do_not_create: true
         wait: true
       register: natOut
 
@@ -124,7 +124,7 @@
       ec2_vpc_route_table:
         vpc_id: "{{vpcOut.vpc.id}}"
         region: "{{region}}"
-        if_exist_do_not_create: no
+        if_exist_do_not_create: true
         tags:
           Name: Vprofile publicRT
         subnets:
