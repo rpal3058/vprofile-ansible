@@ -112,16 +112,18 @@
         state: "{{state}}"
         subnet_id: "{{pubSub1Out.subnet.id}}"
         region: "{{region}}"
+        tags:
+          Name: Vprofile NAT
         if_exist_do_not_create: true
         wait: true
       register: natOut
 
-    - name: Set up private subnet route table 
+    - name: Set up private subnet route table to NAT
       ec2_vpc_route_table:
         vpc_id: "{{vpcOut.vpc.id}}"
         region: "{{region}}"
-        tags:
-          Name: Vprofile publicRT
+        resource_tags:
+          Name: Vprofile privateRT
         subnets:
           - "{{pvtSub1Out.subnet.id}}"
           - "{{pvtSub2Out.subnet.id}}"
