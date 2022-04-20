@@ -145,7 +145,7 @@
         PvtRtID: pvtRTOut.id
 
     - Debug:
-        var: {{items}}
+        var: "{{items}}"
       loop:
         - vpcID 
         - pubSub1ID
