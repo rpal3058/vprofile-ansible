@@ -131,21 +131,21 @@
             gateway_id: "{{ natOut.nat_gateway_id }}"
       register: pvtRTOut
 
-    # - vars:
-    #     vpcID: vpcOut.vpc.id
-    #     pubSub1ID: pubSub1Out.subnet.id
-    #     pubSub2ID: pubSub2Out.subnet.id
-    #     pubSub3ID: pubSub3Out.subnet.id
-    #     pvtSub1ID: pvtSub1Out.subnet.id
-    #     pvtSub2ID: pvtSub2Out.subnet.id
-    #     pvtSub3ID: pvtSub3Out.subnet.id
-    #     igwID: igwOut.gateway_id
-    #     pubRtID: pubRTOut.id
-    #     natID:  natOut.nat_gateway_id 
-    #     PvtRtID: pvtRTOut.id
+    - vars:
+        vpcID: vpcOut.vpc.id
+        pubSub1ID: pubSub1Out.subnet.id
+        pubSub2ID: pubSub2Out.subnet.id
+        pubSub3ID: pubSub3Out.subnet.id
+        pvtSub1ID: pvtSub1Out.subnet.id
+        pvtSub2ID: pvtSub2Out.subnet.id
+        pvtSub3ID: pvtSub3Out.subnet.id
+        igwID: igwOut.gateway_id
+        pubRtID: pubRTOut.id
+        natID:  natOut.nat_gateway_id 
+        PvtRtID: pvtRTOut.id
 
     - debug:
-        var: "{{item}}"
+        msg: "{{item}}"
       loop:
         - vpcID 
         - pubSub1ID
