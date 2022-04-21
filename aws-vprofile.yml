@@ -131,6 +131,18 @@
             gateway_id: "{{ natOut.nat_gateway_id }}"
       register: pvtRTOut
 
+    - name: create an security group for the bastion instance to ssh into
+      ec2_group:
+        name: "{{ sgName }}"
+        description: sg for bastion EC2 instance
+        vpc_id: "{{vpcOut.vpc.id}}"
+        region: "{{region}}"
+        rules:
+          - proto: ssh
+            from_port: 22          
+            cidr_ip: myIP
+            rule_desc: allow all on port 80         
+
     - debug:
         var: "{{item}}"
       loop:
@@ -166,7 +178,6 @@
         content: "VPC:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}\nPublicSubnet2:{{pubSub2Out.subnet.id}}\nPublicSubnet3:{{pubSub3Out.subnet.id}}\nPrivateSubnet1:{{pvtSub1Out.subnet.id}}\nPrivateSubnet2:{{pvtSub2Out.subnet.id}}\nPrivateSubnet3:{{pvtSub3Out.subnet.id}}\nIGW:{{igwOut.gateway_id}}\nPublicRoute:{{pubRTOut.route_table.id}}\nNAT:{{natOut.nat_gateway_id}}\nPrivateRoute:{{pvtRTOut.route_table.id}}"
         dest: ./details.txt  
 
-        
 
 
 

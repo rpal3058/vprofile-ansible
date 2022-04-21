@@ -21,4 +21,6 @@ az3: 'ap-south-1c'
 
 state: present
 
-
+#Bastion Variable
+sgName: 'SG_Bastion'
+myIP: '27.131.212.64/32'
