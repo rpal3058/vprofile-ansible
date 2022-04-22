@@ -220,7 +220,7 @@
       ansible.builtin.copy:  
         content: "{{keyOut.key.private_key}}"
         dest: ./bastion_keypair.pem
-      when: keyOut.changed==true
+      when: keyOut.changed 
     
     - name: Changing perm of "/foo/bar.sh", adding "+x"
       file: dest=./bastion_keypair.pem mode=a+rx
