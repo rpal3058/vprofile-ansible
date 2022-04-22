@@ -107,14 +107,14 @@
             gateway_id: "{{ igwOut.gateway_id }}"
       register: pubRTOut   
     
-    - name: Create new nat gateway in public subnets
-      ec2_vpc_nat_gateway:
-        state: "{{state}}"
-        subnet_id: "{{pubSub1Out.subnet.id}}"
-        region: "{{region}}"
-        if_exist_do_not_create: true
-        wait: true
-      register: natOut
+    # - name: Create new nat gateway in public subnets
+    #   ec2_vpc_nat_gateway:
+    #     state: "{{state}}"
+    #     subnet_id: "{{pubSub1Out.subnet.id}}"
+    #     region: "{{region}}"
+    #     if_exist_do_not_create: true
+    #     wait: true
+    #   register: natOut
 
     - name: Set up private subnet route table to NAT
       ec2_vpc_route_table:
@@ -141,7 +141,7 @@
           - proto: tcp
             from_port: 22
             to_port: 22          
-            cidr_ip: myIP
+            cidr_ip: "{{myIP}}"
             rule_desc: allow all on port 80         
 
     - debug:
