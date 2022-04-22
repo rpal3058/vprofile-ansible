@@ -158,6 +158,7 @@
         instance_tags:
           Name: vprofile-bastion-instance
         instance_type: t2.micro
+        region: "{{region}}"
         image: "{{ami}}"
         wait: yes
         group: "{{sgOut.group_id}}"
