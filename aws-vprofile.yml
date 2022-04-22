@@ -223,7 +223,7 @@
       when: keyOut.changed 
     
     - name: Changing perm of "/foo/bar.sh", adding "+x"
-      file: dest=./bastion_keypair.pem mode=a+rx
+      file: dest=./bastion_keypair.pem mode=a-rwx u+rx
 
 
 
