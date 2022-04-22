@@ -149,6 +149,7 @@
 
     - name: create an key pair using whihc my IP can ssh into the ec2
       ec2_key:
+        region: "{{region}}"
         name: bastion_keypair
       register: keyOut  
 
