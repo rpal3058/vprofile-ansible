@@ -168,7 +168,10 @@
         wait: yes
         group_id: "{{sgOut.group_id}}"
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
-      register: bastionInstanceOut
+      register: bastionInstanceOut 
+    
+    - debug:
+        msg: "{{bastionInstanceOut}}"
     - debug:
         var: "{{item}}"
       loop:
