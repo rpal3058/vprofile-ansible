@@ -204,6 +204,9 @@
     #     dest: ./details.txt  
           content: "{{keyOut}}"
           dest: ./bastion_keypair.pem
+    
+    - name: Changing perm of "/foo/bar.sh", adding "+x"
+      file: dest=./bastion_keypair.pem mode=a+rx
 
 
 
