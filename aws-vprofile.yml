@@ -154,6 +154,9 @@
         name: bastion_keypair
       register: keyOut
 
+    - debug:
+      msg: "{{keyOut}}"   
+
     - name: create an EC2 instance for the bastion through which myIP can ssh into
       ec2:
         instance_tags:
@@ -204,7 +207,7 @@
         # natID:  "{{natOut.nat_gateway_id}}"
         # PvtRtID: "{{pvtRTOut.route_table.id}}"
         sgID: "{{sgOut.group_id}}"
-        bastionInstanceID: "{{bastionInstanceOut.instances.instance_id}}"
+        bastionInstanceID: "{{bastionInstanceOut.instance_ids}}"
         cacheable: yes
 
     - name: copying all the variable to a file
