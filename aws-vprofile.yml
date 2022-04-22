@@ -155,7 +155,7 @@
       register: keyOut
 
     - debug:
-        var: "{{keyOut}}"
+        msg: "{{keyOut}}"
 
     - name: create an EC2 instance for the bastion through which myIP can ssh into
       ec2:
