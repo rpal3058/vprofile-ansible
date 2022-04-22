@@ -146,12 +146,6 @@
             cidr_ip: "{{myIP}}"
             rule_desc: allow all on port 80         
       register: sgOut
-   
-    # - name: Deleting key pair if it exits  
-    #   ec2_key:
-    #     region: "{{region}}"
-    #     name: bastion_keypair
-    #   register: keyOut
 
     - name: create an key pair using whihc my IP can ssh into the ec2
       ec2_key:
@@ -159,7 +153,6 @@
         region: "{{region}}"
         name: bastion_keypair
       register: keyOut
-
 
     - name: create an EC2 instance for the bastion through which myIP can ssh into
       ec2:
@@ -208,10 +201,13 @@
 
     - name: copying all the variable to a file
       ansible.builtin.copy:
-    #     content: "VPC:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}\nPublicSubnet2:{{pubSub2Out.subnet.id}}\nPublicSubnet3:{{pubSub3Out.subnet.id}}\nPrivateSubnet1:{{pvtSub1Out.subnet.id}}\nPrivateSubnet2:{{pvtSub2Out.subnet.id}}\nPrivateSubnet3:{{pvtSub3Out.subnet.id}}\nIGW:{{igwOut.gateway_id}}\nPublicRoute:{{pubRTOut.route_table.id}}\nNAT:{{natOut.nat_gateway_id}}\nPrivateRoute:{{pvtRTOut.route_table.id}}"
-    #     dest: ./details.txt  
-          content: "{{keyOut.private_key}}"
-          dest: ./bastion_keypair.pem
+        content: "VPC:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}\nPublicSubnet2:{{pubSub2Out.subnet.id}}\nPublicSubnet3:{{pubSub3Out.subnet.id}}\nPrivateSubnet1:{{pvtSub1Out.subnet.id}}\nPrivateSubnet2:{{pvtSub2Out.subnet.id}}\nPrivateSubnet3:{{pvtSub3Out.subnet.id}}\nIGW:{{igwOut.gateway_id}}\nPublicRoute:{{pubRTOut.route_table.id}}\nNAT:{{natOut.nat_gateway_id}}\nPrivateRoute:{{pvtRTOut.route_table.id}}"
+        dest: ./details.txt
+
+    - name: copying the private key to ssh into bastion
+      ansible.builtin.copy:  
+        content: "{{keyOut.key.private_key}}"
+        dest: ./bastion_keypair.pem
     
     - name: Changing perm of "/foo/bar.sh", adding "+x"
       file: dest=./bastion_keypair.pem mode=a+rx
