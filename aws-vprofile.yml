@@ -138,7 +138,7 @@
         vpc_id: "{{vpcOut.vpc.id}}"
         region: "{{region}}"
         rules:
-          - proto: ssh
+          - proto: tcp
             from_port: 22
             to_port: 22          
             cidr_ip: myIP
