@@ -207,7 +207,7 @@
 
     - name: copying the private key to ssh into bastion
       ansible.builtin.copy:  
-        content: "{{keyOut.key.private_key}}"
+        content: "{{keyOut.key}}"
         dest: ./bastion_keypair.pem
     
     - name: Changing perm of "/foo/bar.sh", adding "+x"
