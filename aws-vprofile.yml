@@ -154,9 +154,6 @@
         name: bastion_keypair
       register: keyOut
 
-    - debug:
-        msg: "{{keyOut}}"
-
     - name: create an EC2 instance for the bastion through which myIP can ssh into
       ec2:
         instance_tags:
@@ -171,7 +168,7 @@
         wait: yes
         group_id: "{{sgOut.group_id}}"
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
-
+      register: bastionInstanceOut
     - debug:
         var: "{{item}}"
       loop:
@@ -186,6 +183,9 @@
         - pubRTOut.route_table.id
         # - natOut.nat_gateway_id 
         # - pvtRTOut.route_table.id
+        - sgOut.group_id
+        - bastionInstanceOut.instances.instance_id
+
 
     - name: setting fact for this playbook  
       set_fact:
@@ -200,6 +200,8 @@
         pubRtID: "{{pubRTOut.route_table.id}}"
         # natID:  "{{natOut.nat_gateway_id}}"
         # PvtRtID: "{{pvtRTOut.route_table.id}}"
+        sgID: "{{sgOut.group_id}}"
+        bastionInstanceID: "{{bastionInstanceOut.instances.instance_id}}"
         cacheable: yes
 
     - name: copying all the variable to a file
@@ -210,7 +212,7 @@
 
     - name: copying the private key to ssh into bastion
       ansible.builtin.copy:  
-        content: "{{keyOut.key}}"
+        content: "{{keyOut.key.private_key}}"
         dest: ./bastion_keypair.pem
       when: keyOut.changed==true
     
