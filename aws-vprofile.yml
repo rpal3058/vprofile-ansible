@@ -155,7 +155,8 @@
 
     - name: create an EC2 instance for the bastion through which myIP can ssh into
       ec2:
-        key_name: "{{bastion_keypair}}"
+        tages:
+          Name: vprofile-bastion-instance
         instance_type: t2.micro
         image: "{{ami}}"
         wait: yes
