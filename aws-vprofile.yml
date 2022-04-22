@@ -139,7 +139,8 @@
         region: "{{region}}"
         rules:
           - proto: ssh
-            from_port: 22          
+            from_port: 22
+            to_port: 22          
             cidr_ip: myIP
             rule_desc: allow all on port 80         
 
