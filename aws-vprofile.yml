@@ -137,6 +137,8 @@
         description: sg for bastion EC2 instance
         vpc_id: "{{vpcOut.vpc.id}}"
         region: "{{region}}"
+        tags:
+          Name: Bsation SG
         rules:
           - proto: tcp
             from_port: 22
