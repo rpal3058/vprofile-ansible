@@ -187,7 +187,7 @@
         # - natOut.nat_gateway_id 
         # - pvtRTOut.route_table.id
         - sgOut.group_id
-        - bastionInstanceOut.instances.instance_id
+        - bastionInstanceOut.instance_id
 
 
     - name: setting fact for this playbook  
