@@ -114,22 +114,22 @@
     #     region: "{{region}}"
     #     if_exist_do_not_create: true
     #     wait: true
-    #   register: natOut
+    # #   register: natOut
 
-    - name: Set up private subnet route table to NAT
-      ec2_vpc_route_table:
-        vpc_id: "{{vpcOut.vpc.id}}"
-        region: "{{region}}"
-        resource_tags:
-          Name: Vprofile privateRT
-        subnets:
-          - "{{pvtSub1Out.subnet.id}}"
-          - "{{pvtSub2Out.subnet.id}}"
-          - "{{pvtSub3Out.subnet.id}}"
-        routes:
-          - dest: 0.0.0.0/0
-            gateway_id: "{{ natOut.nat_gateway_id }}"
-      register: pvtRTOut
+    # - name: Set up private subnet route table to NAT
+    #   ec2_vpc_route_table:
+    #     vpc_id: "{{vpcOut.vpc.id}}"
+    #     region: "{{region}}"
+    #     resource_tags:
+    #       Name: Vprofile privateRT
+    #     subnets:
+    #       - "{{pvtSub1Out.subnet.id}}"
+    #       - "{{pvtSub2Out.subnet.id}}"
+    #       - "{{pvtSub3Out.subnet.id}}"
+    #     routes:
+    #       - dest: 0.0.0.0/0
+    #         gateway_id: "{{ natOut.nat_gateway_id }}"
+    #   register: pvtRTOut
 
     - name: create an security group for the bastion instance to ssh into
       ec2_group:
@@ -144,40 +144,40 @@
             cidr_ip: "{{myIP}}"
             rule_desc: allow all on port 80         
 
-    - debug:
-        var: "{{item}}"
-      loop:
-        - vpcOut.vpc.id
-        - pubSub1Out.subnet.id
-        - pubSub2Out.subnet.id
-        - pubSub3Out.subnet.id
-        - pvtSub3Out.subnet.id
-        - pvtSub3Out.subnet.id
-        - pvtSub3Out.subnet.id
-        - igwOut.gateway_id
-        - pubRTOut.route_table.id
-        - natOut.nat_gateway_id 
-        - pvtRTOut.route_table.id
+    # - debug:
+    #     var: "{{item}}"
+    #   loop:
+    #     - vpcOut.vpc.id
+    #     - pubSub1Out.subnet.id
+    #     - pubSub2Out.subnet.id
+    #     - pubSub3Out.subnet.id
+    #     - pvtSub3Out.subnet.id
+    #     - pvtSub3Out.subnet.id
+    #     - pvtSub3Out.subnet.id
+    #     - igwOut.gateway_id
+    #     - pubRTOut.route_table.id
+    #     - natOut.nat_gateway_id 
+    #     - pvtRTOut.route_table.id
 
-    - name: setting fact for this playbook  
-      set_fact:
-        vpcID: "{{vpcOut.vpc.id}}"
-        pubSub1ID: "{{pubSub1Out.subnet.id}}"
-        pubSub2ID: "{{pubSub2Out.subnet.id}}"
-        pubSub3ID: "{{pubSub3Out.subnet.id}}"
-        pvtSub1ID: "{{pvtSub1Out.subnet.id}}"
-        pvtSub2ID: "{{pvtSub2Out.subnet.id}}"
-        pvtSub3ID: "{{pvtSub3Out.subnet.id}}"
-        igwID: "{{igwOut.gateway_id}}"
-        pubRtID: "{{pubRTOut.route_table.id}}"
-        natID:  "{{natOut.nat_gateway_id}}"
-        PvtRtID: "{{pvtRTOut.route_table.id}}"
-        cacheable: yes
+    # - name: setting fact for this playbook  
+    #   set_fact:
+    #     vpcID: "{{vpcOut.vpc.id}}"
+    #     pubSub1ID: "{{pubSub1Out.subnet.id}}"
+    #     pubSub2ID: "{{pubSub2Out.subnet.id}}"
+    #     pubSub3ID: "{{pubSub3Out.subnet.id}}"
+    #     pvtSub1ID: "{{pvtSub1Out.subnet.id}}"
+    #     pvtSub2ID: "{{pvtSub2Out.subnet.id}}"
+    #     pvtSub3ID: "{{pvtSub3Out.subnet.id}}"
+    #     igwID: "{{igwOut.gateway_id}}"
+    #     pubRtID: "{{pubRTOut.route_table.id}}"
+    #     natID:  "{{natOut.nat_gateway_id}}"
+    #     PvtRtID: "{{pvtRTOut.route_table.id}}"
+    #     cacheable: yes
 
-    - name: copying all the variable to a file
-      ansible.builtin.copy:
-        content: "VPC:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}\nPublicSubnet2:{{pubSub2Out.subnet.id}}\nPublicSubnet3:{{pubSub3Out.subnet.id}}\nPrivateSubnet1:{{pvtSub1Out.subnet.id}}\nPrivateSubnet2:{{pvtSub2Out.subnet.id}}\nPrivateSubnet3:{{pvtSub3Out.subnet.id}}\nIGW:{{igwOut.gateway_id}}\nPublicRoute:{{pubRTOut.route_table.id}}\nNAT:{{natOut.nat_gateway_id}}\nPrivateRoute:{{pvtRTOut.route_table.id}}"
-        dest: ./details.txt  
+    # - name: copying all the variable to a file
+    #   ansible.builtin.copy:
+    #     content: "VPC:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}\nPublicSubnet2:{{pubSub2Out.subnet.id}}\nPublicSubnet3:{{pubSub3Out.subnet.id}}\nPrivateSubnet1:{{pvtSub1Out.subnet.id}}\nPrivateSubnet2:{{pvtSub2Out.subnet.id}}\nPrivateSubnet3:{{pvtSub3Out.subnet.id}}\nIGW:{{igwOut.gateway_id}}\nPublicRoute:{{pubRTOut.route_table.id}}\nNAT:{{natOut.nat_gateway_id}}\nPrivateRoute:{{pvtRTOut.route_table.id}}"
+    #     dest: ./details.txt  
 
 
 
