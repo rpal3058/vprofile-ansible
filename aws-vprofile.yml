@@ -146,12 +146,20 @@
             cidr_ip: "{{myIP}}"
             rule_desc: allow all on port 80         
       register: sgOut
+   
+    # - name: Deleting key pair if it exits  
+    #   ec2_key:
+    #     region: "{{region}}"
+    #     name: bastion_keypair
+    #   register: keyOut
 
     - name: create an key pair using whihc my IP can ssh into the ec2
       ec2_key:
+        state: "{{state}}"
         region: "{{region}}"
         name: bastion_keypair
-      register: keyOut  
+      register: keyOut
+
 
     - name: create an EC2 instance for the bastion through which myIP can ssh into
       ec2:
@@ -168,41 +176,41 @@
         group_id: "{{sgOut.group_id}}"
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
 
-    # - debug:
-    #     var: "{{item}}"
-    #   loop:
-    #     - vpcOut.vpc.id
-    #     - pubSub1Out.subnet.id
-    #     - pubSub2Out.subnet.id
-    #     - pubSub3Out.subnet.id
-    #     - pvtSub3Out.subnet.id
-    #     - pvtSub3Out.subnet.id
-    #     - pvtSub3Out.subnet.id
-    #     - igwOut.gateway_id
-    #     - pubRTOut.route_table.id
-    #     - natOut.nat_gateway_id 
-    #     - pvtRTOut.route_table.id
+    - debug:
+        var: "{{item}}"
+      loop:
+        - vpcOut.vpc.id
+        - pubSub1Out.subnet.id
+        - pubSub2Out.subnet.id
+        - pubSub3Out.subnet.id
+        - pvtSub3Out.subnet.id
+        - pvtSub3Out.subnet.id
+        - pvtSub3Out.subnet.id
+        - igwOut.gateway_id
+        - pubRTOut.route_table.id
+        # - natOut.nat_gateway_id 
+        # - pvtRTOut.route_table.id
 
-    # - name: setting fact for this playbook  
-    #   set_fact:
-    #     vpcID: "{{vpcOut.vpc.id}}"
-    #     pubSub1ID: "{{pubSub1Out.subnet.id}}"
-    #     pubSub2ID: "{{pubSub2Out.subnet.id}}"
-    #     pubSub3ID: "{{pubSub3Out.subnet.id}}"
-    #     pvtSub1ID: "{{pvtSub1Out.subnet.id}}"
-    #     pvtSub2ID: "{{pvtSub2Out.subnet.id}}"
-    #     pvtSub3ID: "{{pvtSub3Out.subnet.id}}"
-    #     igwID: "{{igwOut.gateway_id}}"
-    #     pubRtID: "{{pubRTOut.route_table.id}}"
-    #     natID:  "{{natOut.nat_gateway_id}}"
-    #     PvtRtID: "{{pvtRTOut.route_table.id}}"
-    #     cacheable: yes
+    - name: setting fact for this playbook  
+      set_fact:
+        vpcID: "{{vpcOut.vpc.id}}"
+        pubSub1ID: "{{pubSub1Out.subnet.id}}"
+        pubSub2ID: "{{pubSub2Out.subnet.id}}"
+        pubSub3ID: "{{pubSub3Out.subnet.id}}"
+        pvtSub1ID: "{{pvtSub1Out.subnet.id}}"
+        pvtSub2ID: "{{pvtSub2Out.subnet.id}}"
+        pvtSub3ID: "{{pvtSub3Out.subnet.id}}"
+        igwID: "{{igwOut.gateway_id}}"
+        pubRtID: "{{pubRTOut.route_table.id}}"
+        # natID:  "{{natOut.nat_gateway_id}}"
+        # PvtRtID: "{{pvtRTOut.route_table.id}}"
+        cacheable: yes
 
     - name: copying all the variable to a file
       ansible.builtin.copy:
     #     content: "VPC:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}\nPublicSubnet2:{{pubSub2Out.subnet.id}}\nPublicSubnet3:{{pubSub3Out.subnet.id}}\nPrivateSubnet1:{{pvtSub1Out.subnet.id}}\nPrivateSubnet2:{{pvtSub2Out.subnet.id}}\nPrivateSubnet3:{{pvtSub3Out.subnet.id}}\nIGW:{{igwOut.gateway_id}}\nPublicRoute:{{pubRTOut.route_table.id}}\nNAT:{{natOut.nat_gateway_id}}\nPrivateRoute:{{pvtRTOut.route_table.id}}"
     #     dest: ./details.txt  
-          content: "{{keyOut}}"
+          content: "{{keyOut.private_key}}"
           dest: ./bastion_keypair.pem
     
     - name: Changing perm of "/foo/bar.sh", adding "+x"
