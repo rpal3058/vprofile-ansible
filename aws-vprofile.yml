@@ -154,6 +154,9 @@
         name: bastion_keypair
       register: keyOut
 
+    - debug:
+        var: "{{keyOut}}"
+
     - name: create an EC2 instance for the bastion through which myIP can ssh into
       ec2:
         instance_tags:
