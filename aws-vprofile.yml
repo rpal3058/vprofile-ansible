@@ -138,13 +138,29 @@
         vpc_id: "{{vpcOut.vpc.id}}"
         region: "{{region}}"
         tags:
-          Name: Bsation SG
+          Name: vprofile-bastion
         rules:
           - proto: tcp
             from_port: 22
             to_port: 22          
             cidr_ip: "{{myIP}}"
             rule_desc: allow all on port 80         
+      register: sgOut
+
+    - name: create an key pair using whihc my IP can ssh into the ec2
+      ec2_key:
+        name: bastion_keypair
+      register: keyOut  
+
+    - name: create an EC2 instance for the bastion through which myIP can ssh into
+      ec2:
+        key_name: "{{bastion_keypair}}"
+        instance_type: t2.micro
+        image: "{{ami}}"
+        wait: yes
+        group: "{{sgOut.group_id}}"
+        count: 31
+        vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
 
     # - debug:
     #     var: "{{item}}"
