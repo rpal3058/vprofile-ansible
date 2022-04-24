@@ -173,8 +173,6 @@
       register: bastionInstanceOut 
     
     - debug:
-        msg: "{{bastionInstanceOut}}"
-    - debug:
         var: "{{item}}"
       loop:
         - vpcOut.vpc.id
