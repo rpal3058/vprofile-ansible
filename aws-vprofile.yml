@@ -158,9 +158,11 @@
       ec2:
         instance_tags:
           Name: "vprofile-bastion-instance"
+          Project: Vprofile
         exact_count: 1
         count_tag: 
           Name: "vprofile-bastion-instance"
+          Project: Vprofile
         instance_type: t2.micro
         region: "{{region}}"
         image: "{{ami}}"
@@ -170,6 +172,7 @@
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
       register: bastionInstanceOut 
     
+
     - debug:
         var: "{{item}}"
       loop:
