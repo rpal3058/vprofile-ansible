@@ -156,6 +156,14 @@
 
     - name: create an EC2 instance for the bastion through which myIP can ssh into
       ec2:
+        key_name: "{{keyOut.key.name}}"
+        wait: yes
+        wait_timeout: 300
+        instance_type: t2.micro
+        region: "{{region}}"
+        image: "{{ami}}"
+        group_id: "{{sgOut.group_id}}"
+        vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
         instance_tags:
           Name: "vprofile-bastion-instance"
           Project: Vprofile
@@ -163,16 +171,8 @@
         count_tag: 
           Name: "vprofile-bastion-instance"
           Project: Vprofile
-        instance_type: t2.micro
-        region: "{{region}}"
-        image: "{{ami}}"
-        key_name: "{{keyOut.key.name}}"
-        wait: yes
-        group_id: "{{sgOut.group_id}}"
-        vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
       register: bastionInstanceOut 
     
-
     - debug:
         var: "{{item}}"
       loop:
