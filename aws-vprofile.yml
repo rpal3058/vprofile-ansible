@@ -143,8 +143,8 @@
           - proto: tcp
             from_port: 22
             to_port: 22          
-            cidr_ip: "{{myIP}}"
-            rule_desc: allow all on port 80         
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all on port 22         
       register: sgOut
 
     - name: create an key pair using whihc my IP can ssh into the ec2
@@ -153,9 +153,6 @@
         region: "{{region}}"
         name: bastion_keypair
       register: keyOut
-
-    - debug:
-        msg: "{{keyOut}}"   
 
     - name: create an EC2 instance for the bastion through which myIP can ssh into
       ec2:
