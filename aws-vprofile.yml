@@ -164,13 +164,14 @@
         image: "{{ami}}"
         group_id: "{{sgOut.group_id}}"
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
+        count: 1
         instance_tags:
           Name: "vprofile-bastion-instance"
           Project: Vprofile
-        exact_count: 1
-        count_tag: 
-          Name: "vprofile-bastion-instance"
-          Project: Vprofile
+        # exact_count: 1
+        # count_tag: 
+        #   Name: "vprofile-bastion-instance"
+        #   Project: Vprofile
       register: bastionInstanceOut 
     
     - debug:
