@@ -27,10 +27,10 @@
       register: ELBSgOut
   
 
-    - name: create an security group for Vprofile Stack in private subnet
+    - name: create an security group for Vprofile Stack
       ec2_group:
         name: "vprofileStack"
-        description: sg for ELB
+        description: sg for Vprofile Stack
         vpc_id: "{{VPC}}"
         region: "{{Region}}"
         tags:
@@ -59,7 +59,7 @@
     - name: Update the SG for vprofile so that the components within the SG can talk to each other
       ec2_group:
         name: "vprofileStack"
-        description: sg for ELB
+        description: sg for Vprofile Stack
         vpc_id: "{{VPC}}"
         region: "{{Region}}"
         tags:
