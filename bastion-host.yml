@@ -68,6 +68,6 @@
 
     - name: Insert/Update bastion id to the resource id text
       blockinfile:
-        path: var/resource_id.txt
+        path: var/resource_id.yml
         block: |
           BastionHost:{{bastionInstanceOut.tagged_instances[0].id}}
