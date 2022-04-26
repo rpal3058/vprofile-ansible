@@ -71,7 +71,6 @@
           - proto: all
             group_id: "{{VprofileSgOut.group_id}}"
             rule_desc: allow resources within the security group to talk to each other
-      register: VprofileSgOut
 
 
 
