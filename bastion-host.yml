@@ -49,12 +49,12 @@
         var: "{{item}}"
       loop:
         - sgOut.group_id
-        - bastionInstanceOut
+        - bastionInstanceOut.tagged_instances[0].id
 
     - name: setting fact for this playbook  
       set_fact:
         sgID: "{{sgOut.group_id}}"
-        bastionInstanceID: "{{bastionInstanceOut.instance_ids}}"
+        bastionInstanceID: "{{bastionInstanceOut.tagged_instances[0].id}}"
         cacheable: yes
 
     - name: copying the private key to ssh into bastion
@@ -70,4 +70,4 @@
       blockinfile:
         path: var/resource_id.txt
         block: |
-          BastionHost:{{bastionInstanceOut.tagged_instances.id}}
+          BastionHost:{{bastionInstanceOut.tagged_instances[0].id}}
