@@ -2,7 +2,7 @@
   gather_facts: False
   tasks:
     - name: Importing resource id 
-      include_vars: var/resource_id.txt
+      include_vars: var/resource_id.yml
 
     - name: create an security group for Load Balancer
       ec2_group:
