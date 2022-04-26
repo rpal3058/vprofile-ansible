@@ -65,9 +65,9 @@
           Name: vprofileStack
         purge_rules: no 
         rules:
+        # in the 'proto' attribute, if you specify  all, or a protocol number other than tcp, udp, icmp, or 58 (ICMPv6),
+        # traffic on all ports is allowed, regardless of any ports you specify. So the port is not mentioned
           - proto: all
-            from_port: 0.0.0.0/0
-            to_port: 0.0.0.0/0          
             group_id: VprofileSgOut.group_id
             rule_desc: allow resources within the security group to talk to each other
       register: VprofileSgOut
