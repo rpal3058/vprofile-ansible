@@ -9,7 +9,7 @@
         name: "vprofile-ELB"
         description: sg for ELB
         vpc_id: "{{VPC}}"
-        region: "{{region}}"
+        region: "{{Region}}"
         tags:
           Name: vprofile-ELB
         rules:
@@ -32,7 +32,7 @@
         name: "vprofileStack"
         description: sg for ELB
         vpc_id: "{{VPC}}"
-        region: "{{region}}"
+        region: "{{Region}}"
         tags:
           Name: vprofileStack
         rules:
@@ -60,7 +60,7 @@
         name: "vprofileStack"
         description: sg for ELB
         vpc_id: "{{VPC}}"
-        region: "{{region}}"
+        region: "{{Region}}"
         tags:
           Name: vprofileStack
         purge_rules: no 
