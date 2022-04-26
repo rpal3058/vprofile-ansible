@@ -68,6 +68,6 @@
 
     - name: Insert/Update bastion id to the resource id text
       blockinfile:
-        path: var/vpc_variable.yml
+        path: var/resource_id.txt
         block: |
           BastionHost:{{bastionInstanceOut.instance_ids}}
