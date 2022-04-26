@@ -70,4 +70,4 @@
       blockinfile:
         path: var/resource_id.txt
         block: |
-          BastionHost:{{bastionInstanceOut.instance_ids}}
+          BastionHost:{{bastionInstanceOut.tagged_instances.id}}
