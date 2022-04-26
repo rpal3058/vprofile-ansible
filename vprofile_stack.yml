@@ -13,13 +13,13 @@
         tags:
           Name: vprofile-ELB
         rules:
-          - proto: HTTP
+          - proto: tcp
             from_port: 80
             to_port: 80          
             cidr_ip: 0.0.0.0/0
             rule_desc: allow all traffic from port 80        
           
-          - proto: HTTPS
+          - proto: tcp
             from_port: 443
             to_port: 443         
             cidr_ip: 0.0.0.0/0
@@ -36,19 +36,19 @@
         tags:
           Name: vprofileStack
         rules:
-          - proto: SSH
+          - proto: ssh
             from_port: 22
             to_port: 22          
             group_id: ELBSgOut.group_id
             rule_desc: allow ssh for bastion 
 
-          - proto: HTTP
+          - proto: tcp
             from_port: 80
             to_port: 80          
             cidr_ip: 0.0.0.0/0
             rule_desc: allow all traffic from port 80        
           
-          - proto: HTTPS
+          - proto: tcp
             from_port: 443
             to_port: 443         
             cidr_ip: 0.0.0.0/0
@@ -65,7 +65,7 @@
           Name: vprofileStack
         purge_rules: no 
         rules:
-          - proto: All traffic
+          - proto: all
             from_port: 0.0.0.0/0
             to_port: 0.0.0.0/0          
             group_id: VprofileSgOut.group_id
