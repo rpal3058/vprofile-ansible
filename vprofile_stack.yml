@@ -8,7 +8,7 @@
       ec2_group:
         name: "vprofile-ELB"
         description: sg for ELB
-        vpc_id: "{{vpcOut.vpc.id}}"
+        vpc_id: "{{VPC}}"
         region: "{{region}}"
         tags:
           Name: vprofile-ELB
@@ -31,7 +31,7 @@
       ec2_group:
         name: "vprofileStack"
         description: sg for ELB
-        vpc_id: "{{vpcOut.vpc.id}}"
+        vpc_id: "{{VPC}}"
         region: "{{region}}"
         tags:
           Name: vprofileStack
@@ -59,7 +59,7 @@
       ec2_group:
         name: "vprofileStack"
         description: sg for ELB
-        vpc_id: "{{vpcOut.vpc.id}}"
+        vpc_id: "{{VPC}}"
         region: "{{region}}"
         tags:
           Name: vprofileStack
