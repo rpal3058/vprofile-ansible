@@ -107,7 +107,7 @@
             gateway_id: "{{ igwOut.gateway_id }}"
       register: pubRTOut   
     
-    # - name: Create new nat gateway in public subnets
+    # - name: Create new nat gateway and allocate new EIP in public subnets if a nat gateway does not yet exist in the subnet.
     #   ec2_vpc_nat_gateway:
     #     state: "{{state}}"
     #     subnet_id: "{{pubSub1Out.subnet.id}}"
@@ -131,47 +131,6 @@
     #         gateway_id: "{{ natOut.nat_gateway_id }}"
     #   register: pvtRTOut
 
-    - name: create an security group for the bastion instance to ssh into
-      ec2_group:
-        name: "{{ sgName }}"
-        description: sg for bastion EC2 instance
-        vpc_id: "{{vpcOut.vpc.id}}"
-        region: "{{region}}"
-        tags:
-          Name: vprofile-bastion
-        rules:
-          - proto: tcp
-            from_port: 22
-            to_port: 22          
-            cidr_ip: 0.0.0.0/0
-            rule_desc: allow all on port 22         
-      register: sgOut
-
-    - name: create an key pair using whihc my IP can ssh into the ec2
-      ec2_key:
-        state: "{{state}}"
-        region: "{{region}}"
-        name: bastion_keypair
-      register: keyOut
-
-    - name: create an EC2 instance for the bastion through which myIP can ssh into
-      ec2:
-        key_name: "{{keyOut.key.name}}"
-        wait: yes
-        wait_timeout: 300
-        instance_type: t2.micro
-        region: "{{region}}"
-        image: "{{ami}}"
-        group_id: "{{sgOut.group_id}}"
-        vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
-        instance_tags:
-          Name: "vprofile-bastion-instance"
-          Project: Vprofile
-        exact_count: 1
-        count_tag: 
-          Name: "vprofile-bastion-instance"
-          Project: Vprofile
-      register: bastionInstanceOut 
     
     - debug:
         var: "{{item}}"
@@ -187,8 +146,6 @@
         - pubRTOut.route_table.id
         # - natOut.nat_gateway_id 
         # - pvtRTOut.route_table.id
-        - sgOut.group_id
-        - bastionInstanceOut.instance_ids
 
 
     - name: setting fact for this playbook  
@@ -204,24 +161,13 @@
         pubRtID: "{{pubRTOut.route_table.id}}"
         # natID:  "{{natOut.nat_gateway_id}}"
         # PvtRtID: "{{pvtRTOut.route_table.id}}"
-        sgID: "{{sgOut.group_id}}"
-        bastionInstanceID: "{{bastionInstanceOut.instance_ids}}"
         cacheable: yes
 
     - name: copying all the variable to a file
       ansible.builtin.copy:
-        # content: "VPC:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}\nPublicSubnet2:{{pubSub2Out.subnet.id}}\nPublicSubnet3:{{pubSub3Out.subnet.id}}\nPrivateSubnet1:{{pvtSub1Out.subnet.id}}\nPrivateSubnet2:{{pvtSub2Out.subnet.id}}\nPrivateSubnet3:{{pvtSub3Out.subnet.id}}\nIGW:{{igwOut.gateway_id}}\nPublicRoute:{{pubRTOut.route_table.id}}\nNAT:{{natOut.nat_gateway_id}}\nPrivateRoute:{{pvtRTOut.route_table.id}}"
-        content: "VPC:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}\nPublicSubnet2:{{pubSub2Out.subnet.id}}\nPublicSubnet3:{{pubSub3Out.subnet.id}}\nPrivateSubnet1:{{pvtSub1Out.subnet.id}}\nPrivateSubnet2:{{pvtSub2Out.subnet.id}}\nPrivateSubnet3:{{pvtSub3Out.subnet.id}}\nIGW:{{igwOut.gateway_id}}\nPublicRoute:{{pubRTOut.route_table.id}}"
-        dest: ./details.txt
+        content: "Region:{{region}}\nVPC:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}\nPublicSubnet2:{{pubSub2Out.subnet.id}}\nPublicSubnet3:{{pubSub3Out.subnet.id}}\nPrivateSubnet1:{{pvtSub1Out.subnet.id}}\nPrivateSubnet2:{{pvtSub2Out.subnet.id}}\nPrivateSubnet3:{{pvtSub3Out.subnet.id}}\nIGW:{{igwOut.gateway_id}}\nPublicRoute:{{pubRTOut.route_table.id}}"
+        dest: ./resource_id.txt
 
-    - name: copying the private key to ssh into bastion
-      ansible.builtin.copy:  
-        content: "{{keyOut.key.private_key}}"
-        dest: ./bastion_keypair.pem
-      when: keyOut.changed 
-    
-    - name: Changing perm of "/foo/bar.sh", adding "+x"
-      file: dest=./bastion_keypair.pem mode=a-rwx,u+rx
 
 
 

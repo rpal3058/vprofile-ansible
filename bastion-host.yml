@@ -1,0 +1,73 @@
+- hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: Importing vpc variables 
+      include_vars: var/vpc_variable.yml
+    - name: create an security group for the bastion instance to ssh into
+      ec2_group:
+        name: "{{ sgName }}"
+        description: sg for bastion EC2 instance
+        vpc_id: "{{vpcOut.vpc.id}}"
+        region: "{{region}}"
+        tags:
+          Name: vprofile-bastion
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22          
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all on port 22         
+      register: sgOut
+
+    - name: create an key pair using whihc my IP can ssh into the ec2
+      ec2_key:
+        state: "{{state}}"
+        region: "{{region}}"
+        name: bastion_keypair
+      register: keyOut
+
+    - name: create an EC2 instance for the bastion through which myIP can ssh into
+      ec2:
+        key_name: "{{keyOut.key.name}}"
+        wait: yes
+        wait_timeout: 300
+        instance_type: t2.micro
+        region: "{{region}}"
+        image: "{{ami}}"
+        group_id: "{{sgOut.group_id}}"
+        vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
+        instance_tags:
+          Name: "vprofile-bastion-instance"
+          Project: Vprofile
+        exact_count: 1
+        count_tag: 
+          Name: "vprofile-bastion-instance"
+          Project: Vprofile
+      register: bastionInstanceOut 
+
+    - debug:
+        var: "{{item}}"
+      loop:
+        - sgOut.group_id
+        - bastionInstanceOut.instance_ids
+
+    - name: setting fact for this playbook  
+      set_fact:
+        sgID: "{{sgOut.group_id}}"
+        bastionInstanceID: "{{bastionInstanceOut.instance_ids}}"
+        cacheable: yes
+
+    - name: copying the private key to ssh into bastion
+      ansible.builtin.copy:  
+        content: "{{keyOut.key.private_key}}"
+        dest: ./bastion_keypair.pem
+      when: keyOut.changed 
+    
+    - name: Changing permission of "./bastion_keypair.pem", adding "+x"
+      file: dest=./bastion_keypair.pem mode=a-rwx,u+rx
+
+    - name: Insert/Update bastion id to the resource id text
+      blockinfile:
+        path: vars/vpc_variable.yml
+        block: |
+          Bastion_Host:{{bastionInstanceOut.instance_ids}}
