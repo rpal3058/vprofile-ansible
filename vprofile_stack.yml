@@ -1,5 +1,79 @@
 - hosts: localhost
   gather_facts: False
   tasks:
-    - name: Importing vpc variables 
-      include_vars: var/vpc_variable.yml
+    - name: Importing resource id 
+      include_vars: var/resource_id.txt
+
+    - name: create an security group for Load Balancer
+      ec2_group:
+        name: "vprofile-ELB"
+        description: sg for ELB
+        vpc_id: "{{vpcOut.vpc.id}}"
+        region: "{{region}}"
+        tags:
+          Name: vprofile-ELB
+        rules:
+          - proto: HTTP
+            from_port: 80
+            to_port: 80          
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic from port 80        
+          
+          - proto: HTTPS
+            from_port: 443
+            to_port: 443         
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic from port 443           
+      register: ELBSgOut
+  
+
+    - name: create an security group for Vprofile Stack in private subnet
+      ec2_group:
+        name: "vprofileStack"
+        description: sg for ELB
+        vpc_id: "{{vpcOut.vpc.id}}"
+        region: "{{region}}"
+        tags:
+          Name: vprofileStack
+        rules:
+          - proto: SSH
+            from_port: 22
+            to_port: 22          
+            group_id: ELBSgOut.group_id
+            rule_desc: allow ssh for bastion 
+
+          - proto: HTTP
+            from_port: 80
+            to_port: 80          
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic from port 80        
+          
+          - proto: HTTPS
+            from_port: 443
+            to_port: 443         
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic from port 443                       
+      register: VprofileSgOut
+
+    - name: Update the SG for vprofile so that the components within the SG can talk to each other
+      ec2_group:
+        name: "vprofileStack"
+        description: sg for ELB
+        vpc_id: "{{vpcOut.vpc.id}}"
+        region: "{{region}}"
+        tags:
+          Name: vprofileStack
+        purge_rules: no 
+        rules:
+          - proto: All traffic
+            from_port: 0.0.0.0/0
+            to_port: 0.0.0.0/0          
+            group_id: VprofileSgOut.group_id
+            rule_desc: allow resources within the security group to talk to each other
+      register: VprofileSgOut
+
+
+
+
+
+ 
