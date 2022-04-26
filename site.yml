@@ -1,4 +1,4 @@
 
 ---
-- import_playbook: aws-vprofile.yml
+- import_playbook: aws-setup.yml
 - import_playbook: bastion-host.yml
