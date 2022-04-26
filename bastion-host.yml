@@ -49,7 +49,7 @@
         var: "{{item}}"
       loop:
         - sgOut.group_id
-        - bastionInstanceOut.instance_ids
+        - bastionInstanceOut
 
     - name: setting fact for this playbook  
       set_fact:
