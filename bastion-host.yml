@@ -2,10 +2,10 @@
   gather_facts: False
   tasks:
     - name: Importing Bastion variables 
-      include_vars: var/vpc_variable.yml
+      include_vars: var/vpc_variable
+      
     - name: Importing vpc resource variables 
-      include_vars: var/resource_id.yml
-
+      include_vars: var/resource_id
 
     - name: create an security group for the bastion instance to ssh into
       ec2_group:
