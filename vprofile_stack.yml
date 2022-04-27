@@ -5,8 +5,8 @@
       include_vars: var/resource_id.yml
 
     - name: getting the ssl certificate we have to access 443 port
-      aws_region: "{{Region}}"
-      aws_acm_info:
+       aws_acm_info:
+        region: "{{Region}}"
         domain_name: "*.mydevop.co.in"
       register: ACMOut
 
