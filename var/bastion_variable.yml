@@ -1,0 +1,7 @@
+#Bastion Variable
+sgName: 'SG_Bastion'
+myIP: '27.131.212.64/32'
+ami: 'ami-0a3277ffce9146b74'
+# BEGIN ANSIBLE MANAGED BLOCK
+BastionHost:
+# END ANSIBLE MANAGED BLOCK

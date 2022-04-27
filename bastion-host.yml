@@ -1,14 +1,18 @@
 - hosts: localhost
   gather_facts: False
   tasks:
-    - name: Importing vpc variables 
+    - name: Importing Bastion variables 
       include_vars: var/vpc_variable.yml
+    - name: Importing vpc resource variables 
+      include_vars: var/resource_id.yml
+
+
     - name: create an security group for the bastion instance to ssh into
       ec2_group:
         name: "{{ sgName }}"
         description: sg for bastion EC2 instance
-        vpc_id: "{{vpcOut.vpc.id}}"
-        region: "{{region}}"
+        vpc_id: "{{VPC}}"
+        region: "{{Region}}"
         tags:
           Name: vprofile-bastion
         rules:
@@ -21,8 +25,8 @@
 
     - name: create an key pair using whihc my IP can ssh into the ec2
       ec2_key:
-        state: "{{state}}"
-        region: "{{region}}"
+        state: present
+        region: "{{Region}}"
         name: bastion_keypair
       register: keyOut
 
@@ -32,9 +36,9 @@
         wait: yes
         wait_timeout: 300
         instance_type: t2.micro
-        region: "{{region}}"
+        region: "{{Region}}"
         image: "{{ami}}"
-        group_id: "{{sgOut.group_id}}"
+        group_id: "{{sgBastionOut.group_id}}"
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
         instance_tags:
           Name: "vprofile-bastion-instance"
@@ -70,4 +74,5 @@
       blockinfile:
         path: var/resource_id.yml
         block: |
+          BastionSG:{{sgOut.group_id}}
           BastionHost:{{bastionInstanceOut.tagged_instances[0].id}}
