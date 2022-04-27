@@ -2,11 +2,13 @@
   gather_facts: False
   tasks:
     - name: Importing resource id 
-      include_vars: var/resource_id.yml
+      include_vars: 
+        file: ./var/resource_id.yml
+        name: resources
 
     - name: getting the ssl certificate we have to access 443 port
       aws_acm_info:
-        region: "{{Region}}"
+        region: "{{resources.Region}}"
         domain_name: "*.mydevop.co.in"
       register: ACMOut
 
@@ -17,8 +19,8 @@
       ec2_group:
         name: "vprofile-ELB"
         description: sg for ELB
-        vpc_id: "{{VPC}}"
-        region: "{{Region}}"
+        vpc_id: "{{resources.VPC}}"
+        region: "{{resources.Region}}"
         tags:
           Name: vprofileELB
         rules:
@@ -40,8 +42,8 @@
       ec2_group:
         name: "vprofileStack"
         description: sg for Vprofile Stack
-        vpc_id: "{{VPC}}"
-        region: "{{Region}}"
+        vpc_id: "{{resources.VPC}}"
+        region: "{{resources.Region}}"
         tags:
           Name: vprofileStack
         purge_rules: no 
@@ -69,8 +71,8 @@
       ec2_group:
         name: "vprofileStack"
         description: sg for Vprofile Stack
-        vpc_id: "{{VPC}}"
-        region: "{{Region}}"
+        vpc_id: "{{resources.VPC}}"
+        region: "{{resources.Region}}"
         tags:
           Name: vprofileStack
         purge_rules: no 
@@ -100,8 +102,5 @@
             load_balancer_port: 443
             instance_port: 443
             ssl_certificate_id: ACMOut.certificates.certificate_arn
-
-
-
 
  

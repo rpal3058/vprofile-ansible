@@ -2,25 +2,27 @@
   gather_facts: False
   tasks:
     - name: Importing vpc variables 
-      include_vars: var/vpc_variable
+      include_vars: 
+        file: "var/vpc_variable.yml}}"
+        name: VPCvariable
 
     - name: create a VPC with dedicated tenancy and a couple of tags
       ec2_vpc_net:
-        name: "{{vpcName}}"
-        cidr_block: "{{vpcCIDR}}"
-        region: "{{region}}"
-        state: "{{state}}"
+        name: "{{VPCvariable.vpcName}}"
+        cidr_block: "{{VPCvariable.vpcCIDR}}"
+        region: "{{VPCvariable.region}}"
+        state: "{{VPCvariable.state}}"
         dns_support: yes
         dns_hostnames: yes
       register: vpcOut
 
     - name: Create public subnet 1 
       ec2_vpc_subnet:
-        region: "{{region}}"
-        state: "{{state}}"
+        region: "{{VPCvariable.region}}"
+        state: "{{VPCvariable.state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
-        cidr: "{{pubSub1CIDR}}"
-        az: "{{az1}}"
+        cidr: "{{VPCvariable.pubSub1CIDR}}"
+        az: "{{VPCvariable.az1}}"
         map_public: yes
         tags:
           Name: Vprofile Public Subnet 1
@@ -28,11 +30,11 @@
 
     - name: Create public subnet 2 
       ec2_vpc_subnet:
-        region: "{{region}}"
-        state: "{{state}}"
+        region: "{{VPCvariable.region}}"
+        state: "{{VPCvariable.state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
-        cidr: "{{pubSub2CIDR}}"
-        az: "{{az2}}"
+        cidr: "{{VPCvariable.pubSub2CIDR}}"
+        az: "{{VPCvariable.az2}}"
         map_public: yes
         tags:
           Name: Vprofile Public Subnet 2
@@ -40,11 +42,11 @@
       
     - name: Create public subnet 3 
       ec2_vpc_subnet:
-        region: "{{region}}"
-        state: "{{state}}"
+        region: "{{VPCvariable.region}}"
+        state: "{{VPCvariable.state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
-        cidr: "{{pubSub3CIDR}}"
-        az: "{{az3}}"
+        cidr: "{{VPCvariable.pubSub3CIDR}}"
+        az: "{{VPCvariable.az3}}"
         map_public: yes
         tags:
           Name: Vprofile Public Subnet 3
@@ -52,33 +54,33 @@
 
     - name: Create private subnet 1
       ec2_vpc_subnet:
-        region: "{{region}}"
-        state: "{{state}}"
+        region: "{{VPCvariable.region}}"
+        state: "{{VPCvariable.state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
-        cidr: "{{pvtSub1CIDR}}"
-        az: "{{az1}}"
+        cidr: "{{VPCvariable.pvtSub1CIDR}}"
+        az: "{{VPCvariable.az1}}"
         tags:
           Name: Vprofile Private Subnet 1
       register: pvtSub1Out  
 
     - name: Create private subnet 2
       ec2_vpc_subnet:
-        region: "{{region}}"
-        state: "{{state}}"
+        region: "{{VPCvariable.region}}"
+        state: "{{VPCvariable.state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
-        cidr: "{{pvtSub2CIDR}}"
-        az: "{{az2}}"
+        cidr: "{{VPCvariable.pvtSub2CIDR}}"
+        az: "{{VPCvariable.az2}}"
         tags:
           Name: Vprofile Private Subnet 2
       register: pvtSub2Out  
 
     - name: Create private subnet 3
       ec2_vpc_subnet:
-        region: "{{region}}"
-        state: "{{state}}"
+        region: "{{VPCvariable.region}}"
+        state: "{{VPCvariable.state}}"
         vpc_id: "{{vpcOut.vpc.id}}"
-        cidr: "{{pvtSub3CIDR}}"
-        az: "{{az3}}"
+        cidr: "{{VPCvariable.pvtSub3CIDR}}"
+        az: "{{VPCvariable.az3}}"
         tags:
           Name: Vprofile Private Subnet 3
       register: pvtSub3Out  
@@ -86,8 +88,8 @@
     - name: Create Internet gateway with tags
       ec2_vpc_igw:
         vpc_id: "{{vpcOut.vpc.id}}"
-        region: "{{region}}"
-        state: "{{state}}"
+        region: "{{VPCvariable.region}}"
+        state: "{{VPCvariable.state}}"
         tags:
             Name: Vprofile IGW
       register: igwOut  
@@ -95,7 +97,7 @@
     - name: Set up public subnet route table 
       ec2_vpc_route_table:
         vpc_id: "{{vpcOut.vpc.id}}"
-        region: "{{region}}"
+        region: "{{VPCvariable.region}}"
         resource_tags:
           Name: Vprofile publicRT
         subnets:
@@ -165,8 +167,8 @@
 
     - name: copying all the variable to a file
       ansible.builtin.copy:
-        content: "Region:{{region}}\nVPC:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}\nPublicSubnet2:{{pubSub2Out.subnet.id}}\nPublicSubnet3:{{pubSub3Out.subnet.id}}\nPrivateSubnet1:{{pvtSub1Out.subnet.id}}\nPrivateSubnet2:{{pvtSub2Out.subnet.id}}\nPrivateSubnet3:{{pvtSub3Out.subnet.id}}\nIGW:{{igwOut.gateway_id}}\nPublicRoute:{{pubRTOut.route_table.id}}"
-        dest: ./var/resource_id
+        content: "---\nRegion:{{region}}\nVPC:{{vpcOut.vpc.id}}\nPublicSubnet1:{{pubSub1Out.subnet.id}}\nPublicSubnet2:{{pubSub2Out.subnet.id}}\nPublicSubnet3:{{pubSub3Out.subnet.id}}\nPrivateSubnet1:{{pvtSub1Out.subnet.id}}\nPrivateSubnet2:{{pvtSub2Out.subnet.id}}\nPrivateSubnet3:{{pvtSub3Out.subnet.id}}\nIGW:{{igwOut.gateway_id}}\nPublicRoute:{{pubRTOut.route_table.id}}"
+        dest: ./var/resource_id.yml
 
 
 

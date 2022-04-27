@@ -2,17 +2,21 @@
   gather_facts: False
   tasks:
     - name: Importing Bastion variables 
-      include_vars: var/bastion_variable
+      include_vars: 
+        file: ./var/bastion_variable.yml
+        name: bastionVar
 
-    - name: Importing vpc resource variables 
-      include_vars: var/resource_id
+    - name: Importing resource id 
+      include_vars: 
+        file: ./var/resource_id.yml
+        name: resources
 
     - name: create an security group for the bastion instance to ssh into
       ec2_group:
         name: "{{ sgName }}"
         description: sg for bastion EC2 instance
-        vpc_id: "{{VPC}}"
-        region: "{{Region}}"
+        vpc_id: "{{resources.VPC}}"
+        region: "{{resources.Region}}"
         tags:
           Name: vprofile-bastion
         rules:
@@ -26,7 +30,7 @@
     - name: create an key pair using whihc my IP can ssh into the ec2
       ec2_key:
         state: present
-        region: "{{Region}}"
+        region: "{{resources.Region}}"
         name: bastion_keypair
       register: keyOut
 
@@ -36,9 +40,9 @@
         wait: yes
         wait_timeout: 300
         instance_type: t2.micro
-        region: "{{Region}}"
-        image: "{{ami}}"
-        group_id: "{{sgBastionOut.group_id}}"
+        region: "{{resources.Region}}"
+        image: "{{bastionVar.ami}}"
+        group_id: "{{sgOut.group_id}}"
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
         instance_tags:
           Name: "vprofile-bastion-instance"
@@ -68,7 +72,9 @@
       when: keyOut.changed 
     
     - name: Changing permission of "./bastion_keypair.pem", adding "+x"
-      file: dest=./bastion_keypair.pem mode=a-rwx,u+rx
+      file: 
+        path: ./bastion_keypair.pem
+        mode: a-rwx,u+rx
 
     - name: Insert/Update bastion id to the resource id text
       blockinfile:
