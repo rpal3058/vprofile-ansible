@@ -48,11 +48,11 @@
           Name: vprofileStack
         purge_rules: no 
         rules:
-          - proto: tcp
-            from_port: 22
-            to_port: 22          
-            group_id: "{{resources.BastionSG}}"
-            rule_desc: allow ssh for bastion 
+          # - proto: tcp
+          #   from_port: 22
+          #   to_port: 22          
+          #   group_id: "{{resources.BastionSG}}"
+          #   rule_desc: allow ssh for bastion 
 
           - proto: tcp
             from_port: 80
