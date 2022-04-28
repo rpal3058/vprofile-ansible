@@ -3,7 +3,7 @@
   tasks:
     - name: Importing vpc variables 
       include_vars: 
-        file: "var/vpc_variable.yml}}"
+        file: ./var/vpc_variable.yml
         name: VPCvariable
 
     - name: create a VPC with dedicated tenancy and a couple of tags
