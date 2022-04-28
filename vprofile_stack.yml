@@ -93,6 +93,7 @@
           - PrivateSubnet2
           - PrivateSubnet3
         purge_subnets: yes
+        region: "{{resources.Region}}"
         listeners:
           - protocol: http
             load_balancer_port: 80
