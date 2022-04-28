@@ -42,6 +42,8 @@
         description: sg for Vprofile Stack
         vpc_id: "{{resources.VPC}}"
         region: "{{resources.Region}}"
+        tags:
+          Name: vprofileStack
         purge_rules: no
         rules:
           - proto: tcp
@@ -49,16 +51,16 @@
             to_port: 80          
             cidr_ip: 0.0.0.0/0
             rule_desc: allow all traffic from port 80        
-          # - proto: tcp
-          #   from_port: 443
-          #   to_port: 443         
-          #   cidr_ip: 0.0.0.0/0
-          #   rule_desc: allow all traffic from port 443                       
+          - proto: tcp
+            from_port: 443
+            to_port: 443         
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic from port 443                       
           - proto: tcp
             from_port: 22
             to_port: 22          
             group_id: "{{resources.BastionSG}}"
-            # rule_desc: allow ssh for bastion 
+            rule_desc: allow ssh for bastion 
       register: VprofileSgOut
 
     - name: Update the SG for vprofile so that the components within the SG can talk to each other
@@ -67,8 +69,8 @@
         description: sg for Vprofile Stack
         vpc_id: "{{resources.VPC}}"
         region: "{{resources.Region}}"
-        # tags:
-        #   Name: vprofileStack
+        tags:
+          Name: vprofileStack
         purge_rules: no 
         rules:
         # in the 'proto' attribute, if you specify  all, or a protocol number other than tcp, udp, icmp, or 58 (ICMPv6),
