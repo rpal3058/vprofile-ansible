@@ -85,5 +85,5 @@
       blockinfile:
         path: var/resource_id.yml
         block: |
-          BastionSG:{{sgOut.group_id}}
-          BastionHost:{{bastionInstanceOut.tagged_instances[0].id}}
+          BastionSG: "{{sgOut.group_id}}"
+          BastionHost: "{{bastionInstanceOut.tagged_instances[0].id}}"
