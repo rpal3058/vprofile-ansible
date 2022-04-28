@@ -40,36 +40,36 @@
 
     - name: create an security group for Vprofile Stack
       ec2_group:
-        name: "vprofileStack"
+        name: vprofileStack
         description: sg for Vprofile Stack
         vpc_id: "{{resources.VPC}}"
         region: "{{resources.Region}}"
+        purge_rules: no
         tags:
           Name: vprofileStack
-        purge_rules: no 
         rules:
-          # - proto: tcp
-          #   from_port: 22
-          #   to_port: 22          
-          #   group_id: "{{resources.BastionSG}}"
-          #   rule_desc: allow ssh for bastion 
-
           - proto: tcp
             from_port: 80
             to_port: 80          
             cidr_ip: 0.0.0.0/0
             rule_desc: allow all traffic from port 80        
           
-          - proto: tcp
-            from_port: 443
-            to_port: 443         
-            cidr_ip: 0.0.0.0/0
-            rule_desc: allow all traffic from port 443                       
+          # - proto: tcp
+          #   from_port: 443
+          #   to_port: 443         
+          #   cidr_ip: 0.0.0.0/0
+          #   rule_desc: allow all traffic from port 443                       
+
+          # - proto: tcp
+          #   from_port: 22
+          #   to_port: 22          
+          #   group_id: "{{resources.BastionSG}}"
+          #   rule_desc: allow ssh for bastion 
       register: VprofileSgOut
 
     - name: Update the SG for vprofile so that the components within the SG can talk to each other
       ec2_group:
-        name: "vprofileStack"
+        name: vprofileStack
         description: sg for Vprofile Stack
         vpc_id: "{{resources.VPC}}"
         region: "{{resources.Region}}"
@@ -81,7 +81,6 @@
         # traffic on all ports is allowed, regardless of any ports you specify. So the port is not mentioned
           - proto: all
             group_id: "{{VprofileSgOut.group_id}}"
-            rule_desc: allow resources within the security group to talk to each other
             
     - name: Creating a load balance which will connect to all the private subnet and launch the required resources
       elb_classic_lb:
