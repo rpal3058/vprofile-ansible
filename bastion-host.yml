@@ -31,6 +31,7 @@
       ec2_key:
         name: bastion_keypair
         state: absent
+        region: "{{resources.Region}}"
 
     - name: create an key pair using whihc my IP can ssh into the ec2
       ec2_key:
