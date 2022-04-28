@@ -13,7 +13,7 @@
 
     - name: create an security group for the bastion instance to ssh into
       ec2_group:
-        name: "{{ sgName }}"
+        name: "{{ bastionVar.sgName }}"
         description: sg for bastion EC2 instance
         vpc_id: "{{resources.VPC}}"
         region: "{{resources.Region}}"
