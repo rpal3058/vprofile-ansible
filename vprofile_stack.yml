@@ -58,7 +58,8 @@
             rule_desc: allow all traffic from port 443                       
           - proto: tcp
             from_port: 22
-            to_port: 22          
+            to_port: 22   
+            cidr_ip: 0.0.0.0/0
             group_id: "{{resources.BastionSG}}"
             rule_desc: allow ssh for bastion 
       register: VprofileSgOut
@@ -76,7 +77,9 @@
         # in the 'proto' attribute, if you specify  all, or a protocol number other than tcp, udp, icmp, or 58 (ICMPv6),
         # traffic on all ports is allowed, regardless of any ports you specify. So the port is not mentioned
           - proto: all
+            cidr_ip: 0.0.0.0/0
             group_id: "{{VprofileSgOut.group_id}}"
+            rule_desc: allow traffice from other EC2 instances within the security group
             
     - name: Creating a load balance which will connect to all the private subnet and launch the required resources
       elb_classic_lb:
