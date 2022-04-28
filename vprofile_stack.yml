@@ -15,9 +15,15 @@
     - debug:
         msg: "{{ACMOut}}"  
 
+    - name: clean any sg existing group
+      ec2_group:
+        region: "{{resources.Region}}"
+        group_name: vprofile-ELB
+        state: absent    
+
     - name: create an security group for Load Balancer
       ec2_group:
-        name: "vprofile-ELB"
+        name: vprofile-ELB
         description: sg for ELB
         vpc_id: "{{resources.VPC}}"
         region: "{{resources.Region}}"
@@ -54,17 +60,17 @@
             cidr_ip: 0.0.0.0/0
             rule_desc: allow all traffic from port 80        
           
-          # - proto: tcp
-          #   from_port: 443
-          #   to_port: 443         
-          #   cidr_ip: 0.0.0.0/0
-          #   rule_desc: allow all traffic from port 443                       
+          - proto: tcp
+            from_port: 443
+            to_port: 443         
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic from port 443                       
 
-          # - proto: tcp
-          #   from_port: 22
-          #   to_port: 22          
-          #   group_id: "{{resources.BastionSG}}"
-          #   rule_desc: allow ssh for bastion 
+          - proto: tcp
+            from_port: 22
+            to_port: 22          
+            group_id: "{{resources.BastionSG}}"
+            rule_desc: allow ssh for bastion 
       register: VprofileSgOut
 
     - name: Update the SG for vprofile so that the components within the SG can talk to each other
