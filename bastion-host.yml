@@ -26,6 +26,11 @@
             cidr_ip: 0.0.0.0/0
             rule_desc: allow all on port 22         
       register: sgOut
+    
+    - name: remove key pair by name if it exits
+      ec2_key:
+        name: bastion_keypair
+        state: absent
 
     - name: create an key pair using whihc my IP can ssh into the ec2
       ec2_key:
