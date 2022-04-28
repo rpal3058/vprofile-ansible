@@ -1,9 +1,9 @@
+---
 #VPC Name
 vpcName: vprofile_vpc
 #VPC IP block
 vpcCIDR: '172.16.0.0/16'
 
----
 #Subnet IP block
 pubSub1CIDR: '172.16.1.0/24'
 pubSub2CIDR: '172.16.2.0/24'
