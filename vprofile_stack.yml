@@ -59,7 +59,7 @@
           - proto: tcp
             from_port: 22
             to_port: 22          
-            group_id: "{{resources.BastionSG}}"
+            group_id: "{{resources.BastionSG_accID}}/{{resources.BastionSG_id}}/{{resources.BastionSG_name}}"
             rule_desc: allow ssh for bastion 
       register: VprofileSgOut
 
