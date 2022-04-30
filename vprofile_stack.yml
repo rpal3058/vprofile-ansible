@@ -87,9 +87,9 @@
         name: 'VprofileELB'
         security_group_ids: "{{ELBSgOut.group_id}}"
         subnets: 
-          - PrivateSubnet1
-          - PrivateSubnet2
-          - PrivateSubnet3
+          - "{{resources.PrivateSubnet1}}"
+          - "{{resources.PrivateSubnet2}}"
+          - "{{resources.PrivateSubnet3}}"
         purge_subnets: yes
         region: "{{resources.Region}}"
         listeners:
