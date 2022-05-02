@@ -56,7 +56,7 @@
       elb_application_lb:
         name: 'VprofileELB'
         region: "{{resources.Region}}"
-        availability_zones:
+        zones:
           - "{{VPCvariable.az1}}"
           - "{{VPCvariable.az2}}"
           - "{{VPCvariable.az3}}"
@@ -76,7 +76,7 @@
             Port: 443 #The port on which the load balancer is listening.
             SslPolicy: ELBSecurityPolicy-2016-08   # The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
             Certificates: # The ARN of the certificate (only one certficate ARN should be provided)
-              - CertificateArn: arn:aws:acm:ap-south-1:422709438327:certificate/8314eaea-966f-44d4-a9d8-bf8f4011cd7c
+              - CertificateArn: "{{ACMOut.certificates.certificate_arn}}"
             DefaultActions:
               - Type: forward 
                 TargetGroupName: "{{ElbTgOut.target_group_name }}"
