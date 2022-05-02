@@ -56,10 +56,6 @@
       elb_application_lb:
         name: 'VprofileELB'
         region: "{{resources.Region}}"
-        zones:
-          - "{{VPCvariable.az1}}"
-          - "{{VPCvariable.az2}}"
-          - "{{VPCvariable.az3}}"
         security_groups: "{{ELBSgOut.group_id}}"
         subnets: 
           - "{{resources.PublicSubnet1}}"
