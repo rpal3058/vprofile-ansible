@@ -14,7 +14,7 @@
       register: ACMOut
     
     - debug:
-      msg: "{{ACMOut}}"  
+        msg: "{{ACMOut}}"  
 
 # Load Balancer
     - name: create an security group for Load Balancer
