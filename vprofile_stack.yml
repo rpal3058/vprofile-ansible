@@ -53,7 +53,7 @@
       register: ElbTgOut  
 
     - name: Creating an Application Load Balancer which will connect to all the private subnet and launch the required resources
-      community.aws.elb_application_lb:
+      elb_application_lb:
         name: 'VprofileELB'
         region: "{{resources.Region}}"
         zones:
