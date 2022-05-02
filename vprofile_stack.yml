@@ -12,6 +12,9 @@
         region: "{{resources.Region}}"
         domain_name: "*.mydevop.co.in"
       register: ACMOut
+    
+    - debug:
+      msg: "{{ACMOut}}"  
 
 # Load Balancer
     - name: create an security group for Load Balancer
