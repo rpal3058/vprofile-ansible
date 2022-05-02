@@ -51,10 +51,10 @@
           - protocol: http
             load_balancer_port: 80
             instance_port: 80
-          - protocol: https
-            load_balancer_port: 443
-            instance_port: 443
-            ssl_certificate_id: ACMOut.certificates.certificate_arn
+          # - protocol: https
+          #   load_balancer_port: 443
+          #   instance_port: 443
+          #   ssl_certificate_id: ACMOut.certificates.certificate_arn
 
 # Vprofile Stack
     - name: create an security group for Vprofile Stack
