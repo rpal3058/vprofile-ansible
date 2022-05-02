@@ -45,6 +45,7 @@
     - name: Create a target group with a default health check
       elb_target_group:
         name: vprofile_tg
+        region: "{{resources.Region}}"
         protocol: http
         port: 8080
         vpc_id: "{{resources.VPC}}"
