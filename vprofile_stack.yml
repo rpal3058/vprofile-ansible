@@ -39,6 +39,7 @@
       elb_classic_lb:
         state: present
         name: 'VprofileELB'
+        cross_az_load_balancing: "yes"
         security_group_ids: "{{ELBSgOut.group_id}}"
         subnets: 
           - "{{resources.PublicSubnet1}}"
@@ -50,10 +51,10 @@
           - protocol: http
             load_balancer_port: 80
             instance_port: 80
-          # - protocol: https
-          #   load_balancer_port: 443
-          #   instance_port: 443
-          #   ssl_certificate_id: ACMOut.certificates.certificate_arn
+          - protocol: https
+            load_balancer_port: 443
+            instance_port: 443
+            ssl_certificate_id: ACMOut.certificates.certificate_arn
 
 # Vprofile Stack
     - name: create an security group for Vprofile Stack
