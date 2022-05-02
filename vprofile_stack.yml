@@ -5,6 +5,10 @@
       include_vars: 
         file: ./var/resource_id.yml
         name: resources
+    - name: Importing vpc variables 
+      include_vars: 
+        file: ./var/vpc_variable.yml
+        name: VPCvariable    
 
 # Getting the ssl certificate 
     - name: getting the ssl certificate we have to access 443 port
@@ -38,26 +42,38 @@
             rule_desc: allow all traffic from port 443           
       register: ELBSgOut
 
-    - name: Creating a load balance which will connect to all the private subnet and launch the required resources
-      elb_classic_lb:
+    - name: Create a target group with a default health check
+      elb_target_group:
+        name: vprofile_tg
+        protocol: http
+        port: 8080
+        vpc_id: "{{resources.VPC}}"
         state: present
-        name: 'VprofileELB'
-        cross_az_load_balancing: "yes"
-        security_group_ids: "{{ELBSgOut.group_id}}"
-        subnets: 
-          - "{{resources.PublicSubnet1}}"
-          - "{{resources.PublicSubnet2}}"
-          - "{{resources.PublicSubnet3}}"
-        purge_subnets: yes
-        region: "{{resources.Region}}"
-        listeners:
-          - protocol: http
-            load_balancer_port: 80
-            instance_port: 80
-          - protocol: https
-            load_balancer_port: 443
-            instance_port: 443
-            ssl_certificate_id: ACMOut.certificates.certificate_arn
+
+    # - name: Creating a load balance which will connect to all the private subnet and launch the required resources
+    #   elb_application_lb:
+    #     state: present
+    #     name: 'VprofileELB'
+    #     region: "{{resources.Region}}"
+    #     zones:
+    #       - "{{VPCvariable.az1}}"
+    #       - "{{VPCvariable.az2}}"
+    #       - "{{VPCvariable.az3}}"
+    #     cross_az_load_balancing: "yes"
+    #     security_group_ids: "{{ELBSgOut.group_id}}"
+    #     subnets: 
+    #       - "{{resources.PublicSubnet1}}"
+    #       - "{{resources.PublicSubnet2}}"
+    #       - "{{resources.PublicSubnet3}}"
+    #     purge_subnets: yes
+    #     listeners:
+    #       - protocol: http
+    #         load_balancer_port: 80
+    #         instance_port: 80
+    #       - protocol: https
+    #         load_balancer_port: 443
+    #         instance_port: 443
+    #         ssl_certificate_id: ACMOut.certificates.certificate_arn
 
 # Vprofile Stack
     - name: create an security group for Vprofile Stack
