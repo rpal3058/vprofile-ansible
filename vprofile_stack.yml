@@ -90,7 +90,7 @@
         image: "{{VprofileVariable.webServerAMI}}"
         wait: yes
         wait_timeout: 300
-        group: "{{VprofileSgOut}}"
+        group_id: "{{VprofileSgOut.group_id}}"
         vpc_subnet_id: "{{resources.PrivateSubnet1}}"
         instance_tags:
           Name: "vprofile-webserver-instance"
@@ -108,7 +108,7 @@
         image: "{{VprofileVariable.webServerAMI}}"
         wait: yes
         wait_timeout: 300
-        group: "{{VprofileSgOut}}"
+        group_id: "{{VprofileSgOut.group_id}}"
         vpc_subnet_id: "{{resources.PrivateSubnet2}}"
         instance_tags:
           Name: "vprofile-webserver-instance"
@@ -126,7 +126,7 @@
         image: "{{VprofileVariable.webServerAMI}}"
         wait: yes
         wait_timeout: 300
-        group: "{{VprofileSgOut}}"
+        group_id: "{{VprofileSgOut.group_id}}"
         vpc_subnet_id: "{{resources.PrivateSubnet2}}"
         instance_tags:
           Name: "vprofile-webserver-instance"
