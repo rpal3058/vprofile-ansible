@@ -140,6 +140,9 @@
           Project: Vprofile
       register: webServerOut3
 
+    - debug: 
+        msg: "{{webServerOut3}}" 
+
 # Load Balancer
     - name: create an security group for Load Balancer
       ec2_group:
@@ -203,4 +206,3 @@
             DefaultActions:
               - Type: forward 
                 TargetGroupName: "{{ElbTgOut.target_group_name }}"
-
