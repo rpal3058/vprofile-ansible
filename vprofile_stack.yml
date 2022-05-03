@@ -136,6 +136,7 @@
           Name: "vprofile-webserver-instance-3"
           Project: Vprofile
       register: webServerOut3
+      
     - debug:
         msg: "{{webServerOut1.instance_ids[0]}}"
 
