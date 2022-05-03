@@ -168,11 +168,11 @@
         vpc_id: "{{resources.VPC}}"
         state: present
         targets:
-          - Id: "{{webServerOut1.instance_ids}}"
+          - Id: "{{webServerOut1.instance_ids[0]}}"
             Port: 22
-          - Id: "{{webServerOut2.instance_ids}}"
+          - Id: "{{webServerOut2.instance_ids[0]}}"
             Port: 22
-          - Id: "{{webServerOut3.instance_ids}}"
+          - Id: "{{webServerOut3.instance_ids[0]}}"
             Port: 22
       register: ElbTgOut  
 
