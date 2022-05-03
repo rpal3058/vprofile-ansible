@@ -85,6 +85,7 @@
 
     - name: create an EC2 instance for the Tomcat webserver in private subnet 1
       ec2:
+        region: "{{resources.Region}}"
         key_name: vprofile_keypair
         instance_type: t2.micro
         image: "{{VprofileVariable.webServerAMI}}"
@@ -103,6 +104,7 @@
 
     - name: create an EC2 instance for the Tomcat webserver in private subnet 2
       ec2:
+        region: "{{resources.Region}}"
         key_name: vprofile_keypair
         instance_type: t2.micro
         image: "{{VprofileVariable.webServerAMI}}"
@@ -121,6 +123,7 @@
 
     - name: create an EC2 instance for the Tomcat webserver in private subnet 3
       ec2:
+        region: "{{resources.Region}}"
         key_name: vprofile_keypair
         instance_type: t2.micro
         image: "{{VprofileVariable.webServerAMI}}"
