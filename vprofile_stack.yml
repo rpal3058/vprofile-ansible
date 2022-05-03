@@ -94,11 +94,11 @@
         group_id: "{{VprofileSgOut.group_id}}"
         vpc_subnet_id: "{{resources.PrivateSubnet1}}"
         instance_tags:
-          Name: "vprofile-webserver-instance"
+          Name: "vprofile-webserver-instance-1"
           Project: Vprofile
         exact_count: 1
         count_tag: 
-          Name: "vprofile-webserver-instance"
+          Name: "vprofile-webserver-instance-1"
           Project: Vprofile
       register: webServerOut1
 
@@ -113,11 +113,11 @@
         group_id: "{{VprofileSgOut.group_id}}"
         vpc_subnet_id: "{{resources.PrivateSubnet2}}"
         instance_tags:
-          Name: "vprofile-webserver-instance"
+          Name: "vprofile-webserver-instance-2"
           Project: Vprofile
         exact_count: 1
         count_tag: 
-          Name: "vprofile-webserver-instance"
+          Name: "vprofile-webserver-instance-2"
           Project: Vprofile
       register: webServerOut2
 
@@ -132,11 +132,11 @@
         group_id: "{{VprofileSgOut.group_id}}"
         vpc_subnet_id: "{{resources.PrivateSubnet2}}"
         instance_tags:
-          Name: "vprofile-webserver-instance"
+          Name: "vprofile-webserver-instance-3"
           Project: Vprofile
         exact_count: 1
         count_tag: 
-          Name: "vprofile-webserver-instance"
+          Name: "vprofile-webserver-instance-3"
           Project: Vprofile
       register: webServerOut3
 
