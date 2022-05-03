@@ -9,6 +9,10 @@
       include_vars: 
         file: ./var/vpc_variable.yml
         name: VPCvariable    
+    - name: Importing vprofile variables 
+      include_vars: 
+        file: ./var/vprofile_variable.yml
+        name: VprofileVariable    
 
 # Getting the ssl certificate 
     - name: getting the ssl certificate we have to access 443 port
@@ -19,63 +23,6 @@
     
     - debug:
         msg: "{{ACMOut}}"  
-
-# Load Balancer
-    - name: create an security group for Load Balancer
-      ec2_group:
-        name: vprofile-ELB
-        description: sg for ELB
-        vpc_id: "{{resources.VPC}}"
-        region: "{{resources.Region}}"
-        tags:
-          Name: vprofileELB
-        rules:
-          - proto: tcp
-            from_port: 80
-            to_port: 80          
-            cidr_ip: 0.0.0.0/0
-            rule_desc: allow all traffic from port 80        
-          - proto: tcp
-            from_port: 443
-            to_port: 443         
-            cidr_ip: 0.0.0.0/0
-            rule_desc: allow all traffic from port 443           
-      register: ELBSgOut
-
-    - name: Create a target group with a default health check
-      elb_target_group:
-        name: vprofileTG
-        region: "{{resources.Region}}"
-        protocol: http
-        port: 8080
-        vpc_id: "{{resources.VPC}}"
-        state: present
-      register: ElbTgOut  
-
-    - name: Creating an Application Load Balancer which will connect to all the private subnet and launch the required resources
-      elb_application_lb:
-        name: 'VprofileELB'
-        region: "{{resources.Region}}"
-        security_groups: "{{ELBSgOut.group_id}}"
-        subnets: 
-          - "{{resources.PublicSubnet1}}"
-          - "{{resources.PublicSubnet2}}"
-          - "{{resources.PublicSubnet3}}"
-        listeners:
-          - Protocol: HTTP # The protocol for connections from clients to the load balancer (HTTP or HTTPS) (case-sensitive).
-            Port: 80 #The port on which the load balancer is listening.
-            DefaultActions:
-              - Type: forward 
-                TargetGroupName: "{{ElbTgOut.target_group_name }}"
-
-          - Protocol: HTTPS # The protocol for connections from clients to the load balancer (HTTP or HTTPS) (case-sensitive).
-            Port: 443 #The port on which the load balancer is listening.
-            SslPolicy: ELBSecurityPolicy-2016-08   # The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
-            Certificates: # The ARN of the certificate (only one certficate ARN should be provided)
-              - CertificateArn: arn:aws:acm:ap-south-1:422709438327:certificate/8314eaea-966f-44d4-a9d8-bf8f4011cd7c
-            DefaultActions:
-              - Type: forward 
-                TargetGroupName: "{{ElbTgOut.target_group_name }}"
 
 # Vprofile Stack
     - name: create an security group for Vprofile Stack
@@ -122,6 +69,138 @@
             # added this since while accessing the group_id it was getting timed out          
             group_id: "{{VprofileSgOut.owner_id}}/{{VprofileSgOut.group_id}}/{{VprofileSgOut.group_name}}"
             rule_desc: allow traffice from other EC2 instances within the security group
-            
 
- 
+    - name: remove key pair by name if it exits
+      ec2_key:
+        name: vprofile_keypair
+        state: absent
+        region: "{{resources.Region}}"
+
+    - name: create an key pair using whihc my IP can ssh into the ec2
+      ec2_key:
+        state: present
+        region: "{{resources.Region}}"
+        name: vprofile_keypair
+      register: keyOut
+
+    - name: create an EC2 instance for the Tomcat webserver in private subnet 1
+      aws.ec2:
+        key_name: vprofile_keypair
+        instance_type: t2.micro
+        image: "{{VprofileVariable.webServerAMI}}"
+        wait: yes
+        wait_timeout: 300
+        group: "{{VprofileSgOut}}"
+        count: 1
+        vpc_subnet_id: "{{PrivateSubnet1}}"
+        instance_tags:
+          Name: "vprofile-webserver-instance"
+          Project: Vprofile
+        exact_count: 1
+        count_tag: 
+          Name: "vprofile-webserver-instance"
+          Project: Vprofile
+      register: webServerOut1
+
+    - name: create an EC2 instance for the Tomcat webserver in private subnet 2
+      aws.ec2:
+        key_name: vprofile_keypair
+        instance_type: t2.micro
+        image: "{{VprofileVariable.webServerAMI}}"
+        wait: yes
+        wait_timeout: 300
+        group: "{{VprofileSgOut}}"
+        count: 1
+        vpc_subnet_id: "{{PrivateSubnet2}}"
+        instance_tags:
+          Name: "vprofile-webserver-instance"
+          Project: Vprofile
+        exact_count: 1
+        count_tag: 
+          Name: "vprofile-webserver-instance"
+          Project: Vprofile
+      register: webServerOut2
+
+    - name: create an EC2 instance for the Tomcat webserver in private subnet 3
+      aws.ec2:
+        key_name: vprofile_keypair
+        instance_type: t2.micro
+        image: "{{VprofileVariable.webServerAMI}}"
+        wait: yes
+        wait_timeout: 300
+        group: "{{VprofileSgOut}}"
+        count: 1
+        vpc_subnet_id: "{{PrivateSubnet2}}"
+        instance_tags:
+          Name: "vprofile-webserver-instance"
+          Project: Vprofile
+        exact_count: 1
+        count_tag: 
+          Name: "vprofile-webserver-instance"
+          Project: Vprofile
+      register: webServerOut3
+
+# Load Balancer
+    - name: create an security group for Load Balancer
+      ec2_group:
+        name: vprofile-ELB
+        description: sg for ELB
+        vpc_id: "{{resources.VPC}}"
+        region: "{{resources.Region}}"
+        tags:
+          Name: vprofileELB
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80          
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic from port 80        
+          - proto: tcp
+            from_port: 443
+            to_port: 443         
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic from port 443           
+      register: ELBSgOut
+
+    - name: Create a target group with a default health check
+      elb_target_group:
+        name: vprofileTG
+        region: "{{resources.Region}}"
+        protocol: http
+        port: 8080
+        vpc_id: "{{resources.VPC}}"
+        state: present
+        targets:
+          - Id: "{{webServerOut1.instances.instance_id}}"
+            Port: 22
+          - Id: "{{webServerOut2.instances.instance_id}}"
+            Port: 22
+          - Id: "{{webServerOut3.instances.instance_id}}"
+            Port: 22
+      register: ElbTgOut  
+
+    - name: Creating an Application Load Balancer which will connect to all the private subnet and launch the required resources
+      elb_application_lb:
+        name: 'VprofileELB'
+        region: "{{resources.Region}}"
+        security_groups: "{{ELBSgOut.group_id}}"
+        subnets: 
+          - "{{resources.PublicSubnet1}}"
+          - "{{resources.PublicSubnet2}}"
+          - "{{resources.PublicSubnet3}}"
+        listeners:
+          - Protocol: HTTP # The protocol for connections from clients to the load balancer (HTTP or HTTPS) (case-sensitive).
+            Port: 80 #The port on which the load balancer is listening.
+            DefaultActions:
+              - Type: forward 
+                TargetGroupName: "{{ElbTgOut.target_group_name }}"
+
+          - Protocol: HTTPS # The protocol for connections from clients to the load balancer (HTTP or HTTPS) (case-sensitive).
+            Port: 443 #The port on which the load balancer is listening.
+            SslPolicy: ELBSecurityPolicy-2016-08   # The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
+            Certificates: # The ARN of the certificate (only one certficate ARN should be provided)
+              - CertificateArn: arn:aws:acm:ap-south-1:422709438327:certificate/8314eaea-966f-44d4-a9d8-bf8f4011cd7c
+            DefaultActions:
+              - Type: forward 
+                TargetGroupName: "{{ElbTgOut.target_group_name }}"
+
