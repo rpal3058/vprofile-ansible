@@ -99,47 +99,44 @@
           Project: Vprofile
       register: webServerOut1
 
-    - name: create an EC2 instance for the Tomcat webserver in private subnet 2
-      ec2:
-        region: "{{resources.Region}}"
-        key_name: vprofile_keypair
-        instance_type: t2.micro
-        image: "{{VprofileVariable.webServerAMI}}"
-        wait: yes
-        wait_timeout: 300
-        group_id: "{{VprofileSgOut.group_id}}"
-        vpc_subnet_id: "{{resources.PrivateSubnet2}}"
-        instance_tags:
-          Name: "vprofile-webserver-instance-2"
-          Project: Vprofile
-        exact_count: 1
-        count_tag: 
-          Name: "vprofile-webserver-instance-2"
-          Project: Vprofile
-      register: webServerOut2
+    # - name: create an EC2 instance for the Tomcat webserver in private subnet 2
+    #   ec2:
+    #     region: "{{resources.Region}}"
+    #     key_name: vprofile_keypair
+    #     instance_type: t2.micro
+    #     image: "{{VprofileVariable.webServerAMI}}"
+    #     wait: yes
+    #     wait_timeout: 300
+    #     group_id: "{{VprofileSgOut.group_id}}"
+    #     vpc_subnet_id: "{{resources.PrivateSubnet2}}"
+    #     instance_tags:
+    #       Name: "vprofile-webserver-instance-2"
+    #       Project: Vprofile
+    #     exact_count: 1
+    #     count_tag: 
+    #       Name: "vprofile-webserver-instance-2"
+    #       Project: Vprofile
+    #   register: webServerOut2
 
-    - name: create an EC2 instance for the Tomcat webserver in private subnet 3
-      ec2:
-        region: "{{resources.Region}}"
-        key_name: vprofile_keypair
-        instance_type: t2.micro
-        image: "{{VprofileVariable.webServerAMI}}"
-        wait: yes
-        wait_timeout: 300
-        group_id: "{{VprofileSgOut.group_id}}"
-        vpc_subnet_id: "{{resources.PrivateSubnet2}}"
-        instance_tags:
-          Name: "vprofile-webserver-instance-3"
-          Project: Vprofile
-        exact_count: 1
-        count_tag: 
-          Name: "vprofile-webserver-instance-3"
-          Project: Vprofile
-      register: webServerOut3
-      
-    - debug:
-        msg: "{{webServerOut1.instance_ids[0]}}"
-
+    # - name: create an EC2 instance for the Tomcat webserver in private subnet 3
+    #   ec2:
+    #     region: "{{resources.Region}}"
+    #     key_name: vprofile_keypair
+    #     instance_type: t2.micro
+    #     image: "{{VprofileVariable.webServerAMI}}"
+    #     wait: yes
+    #     wait_timeout: 300
+    #     group_id: "{{VprofileSgOut.group_id}}"
+    #     vpc_subnet_id: "{{resources.PrivateSubnet2}}"
+    #     instance_tags:
+    #       Name: "vprofile-webserver-instance-3"
+    #       Project: Vprofile
+    #     exact_count: 1
+    #     count_tag: 
+    #       Name: "vprofile-webserver-instance-3"
+    #       Project: Vprofile
+    #   register: webServerOut3
+ 
 # Load Balancer
     - name: create an security group for Load Balancer
       ec2_group:
@@ -173,10 +170,10 @@
         targets:
           - Id: "{{webServerOut1.instance_ids[0]}}"
             Port: 22
-          - Id: "{{webServerOut2.instance_ids[0]}}"
-            Port: 22
-          - Id: "{{webServerOut3.instance_ids[0]}}"
-            Port: 22
+          # - Id: "{{webServerOut2.instance_ids[0]}}"
+          #   Port: 22
+          # - Id: "{{webServerOut3.instance_ids[0]}}"
+          #   Port: 22
       register: ElbTgOut  
 
     - name: Creating an Application Load Balancer which will connect to all the private subnet and launch the required resources
