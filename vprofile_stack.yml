@@ -92,7 +92,7 @@
         wait_timeout: 300
         group: "{{VprofileSgOut}}"
         count: 1
-        vpc_subnet_id: "{{PrivateSubnet1}}"
+        vpc_subnet_id: "{{resources.PrivateSubnet1}}"
         instance_tags:
           Name: "vprofile-webserver-instance"
           Project: Vprofile
@@ -111,7 +111,7 @@
         wait_timeout: 300
         group: "{{VprofileSgOut}}"
         count: 1
-        vpc_subnet_id: "{{PrivateSubnet2}}"
+        vpc_subnet_id: "{{resources.PrivateSubnet2}}"
         instance_tags:
           Name: "vprofile-webserver-instance"
           Project: Vprofile
@@ -130,7 +130,7 @@
         wait_timeout: 300
         group: "{{VprofileSgOut}}"
         count: 1
-        vpc_subnet_id: "{{PrivateSubnet2}}"
+        vpc_subnet_id: "{{resources.PrivateSubnet2}}"
         instance_tags:
           Name: "vprofile-webserver-instance"
           Project: Vprofile
