@@ -91,7 +91,6 @@
         wait: yes
         wait_timeout: 300
         group: "{{VprofileSgOut}}"
-        count: 1
         vpc_subnet_id: "{{resources.PrivateSubnet1}}"
         instance_tags:
           Name: "vprofile-webserver-instance"
@@ -110,7 +109,6 @@
         wait: yes
         wait_timeout: 300
         group: "{{VprofileSgOut}}"
-        count: 1
         vpc_subnet_id: "{{resources.PrivateSubnet2}}"
         instance_tags:
           Name: "vprofile-webserver-instance"
@@ -129,7 +127,6 @@
         wait: yes
         wait_timeout: 300
         group: "{{VprofileSgOut}}"
-        count: 1
         vpc_subnet_id: "{{resources.PrivateSubnet2}}"
         instance_tags:
           Name: "vprofile-webserver-instance"
