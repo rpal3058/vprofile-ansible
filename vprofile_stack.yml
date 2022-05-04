@@ -271,7 +271,7 @@
       register: ElbOut
 
     - debug:
-        msg: "{{ElbOut}}"  
+        msg: "{{ElbOut.load_balancer_arn}}"  
 
 # Creating an inventory file that defines the hosts (i.e managed nodes) and groups of hosts upon which commands, modules, and tasks in a playbook operate
 # set the host name 
