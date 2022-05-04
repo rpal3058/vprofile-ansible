@@ -264,7 +264,7 @@
             Port: 443 #The port on which the load balancer is listening.
             SslPolicy: ELBSecurityPolicy-2016-08   # The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
             Certificates: # The ARN of the certificate (only one certficate ARN should be provided)
-              - CertificateArn: "{{ACMOut.certificate.arn}}"
+              - CertificateArn: "{{ACMOut.arns}}"
             DefaultActions:
               - Type: forward 
                 TargetGroupName: "{{ElbTgOut.target_group_name }}"
@@ -284,5 +284,5 @@
 # creating the inventory file
     - name: Overwriting Inventory file @ /etc/ansible/hosts
       ansible.builtin.copy:
-        content: "webServer: {{webServerOut1.instances.private_ip}}\ndbServer: {{dbServerOut1.instances.private_ip}}\nmcServer: {{mcServerOut1.instances.private_ip}}\nrmqServer: {{rmqServerOut1.instances.private_ip}}\nelb: {{ElbOut.load_balancer_arn}}"
+        content: "webServer: {{webServerOut1.tagged_instances[0].private_ip}}\ndbServer: {{dbServerOut1.tagged_instances[0].private_ip}}\nmcServer: {{mcServerOut1.tagged_instances[0].private_ip}}\nrmqServer: {{rmqServerOut1.tagged_instances[0].private_ip}}\nelb: {{ElbOut.load_balancer_arn}}"
         dest: /etc/ansible/hosts
