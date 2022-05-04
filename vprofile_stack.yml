@@ -90,7 +90,7 @@
             # added the path than just the name of the SG since while accessing the group_id it was getting timed out
             group_id: "{{VprofileSgOutWebserver.owner_id}}/{{VprofileSgOutWebserver.group_id}}/{{VprofileSgOutWebserver.group_name}}"
             rule_desc: allow traffice from the webser to access the RABBITMQ       
-        register: VprofileSgOutBackend
+      register: VprofileSgOutBackend
 
     - name: Update the SG for vprofile so that the components within the SG can talk to each other
       ec2_group:
