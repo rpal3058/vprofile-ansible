@@ -221,7 +221,7 @@
       elb_target_group:
         name: mytargetgroup
         protocol: http
-        port: 80
+        port: 8080
         vpc_id: "{{resources.VPC}}"
         region: "{{resources.Region}}"
         health_check_protocol: http
