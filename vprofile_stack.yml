@@ -278,9 +278,9 @@
     - name: setting fact for this playbook  
       set_fact:
         webServer: "{{webServerOut1.tagged_instances[0].private_ip}}"
-        dbServer: "{{dbServerOut1.tagged_instances[0].instances.private_ip}}"
-        mcServer: "{{mcServerOut1.tagged_instances[0].instances.private_ip}}"
-        rmqServer: "{{rmqServerOut1.tagged_instances[0].instances.private_ip}}"
+        dbServer: "{{dbServerOut1.tagged_instances[0].private_ip}}"
+        mcServer: "{{mcServerOut1.tagged_instances[0].private_ip}}"
+        rmqServer: "{{rmqServerOut1.tagged_instances[0].private_ip}}"
         elb: "{{ElbOut.load_balancer_arn}}"
         cacheable: yes
 
