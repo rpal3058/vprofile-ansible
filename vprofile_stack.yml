@@ -264,7 +264,7 @@
             Port: 443 #The port on which the load balancer is listening.
             SslPolicy: ELBSecurityPolicy-2016-08   # The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
             Certificates: # The ARN of the certificate (only one certficate ARN should be provided)
-              - CertificateArn: arn:aws:acm:ap-south-1:422709438327:certificate/8314eaea-966f-44d4-a9d8-bf8f4011cd7c
+              - CertificateArn: "{{ACMOut.certificate.arn}}"
             DefaultActions:
               - Type: forward 
                 TargetGroupName: "{{ElbTgOut.target_group_name }}"
@@ -272,12 +272,12 @@
 
 # Creating an inventory file that defines the hosts (i.e managed nodes) and groups of hosts upon which commands, modules, and tasks in a playbook operate
 # set the host name 
-    - name: setting hast as fact for this playbook  
+    - name: setting fact for this playbook  
       set_fact:
-        webServer: "{{webServerOut1.instances.private_ip}}"
-        dbServer: "{{dbServerOut1.instances.private_ip}}"
-        mcServer: "{{mcServerOut1.instances.private_ip}}"
-        rmqServer: "{{rmqServerOut1.instances.private_ip}}"
+        webServer: "{{webServerOut1.tagged_instances[0].private_ip}}"
+        dbServer: "{{dbServerOut1.tagged_instances[0].instances.private_ip}}"
+        mcServer: "{{mcServerOut1.tagged_instances[0].instances.private_ip}}"
+        rmqServer: "{{rmqServerOut1.tagged_instances[0].instances.private_ip}}"
         elb: "{{ElbOut.load_balancer_arn}}"
         cacheable: yes
 
