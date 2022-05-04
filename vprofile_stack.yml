@@ -233,9 +233,9 @@
         # health_check_timeout: 3
         # healthy_threshold_count: 4
         # unhealthy_threshold_count: 3
-        targets:
-          - Id: "{{webServerOut1.instance_ids[0]}}"
-            # Port: 
+        # targets:
+        #   - Id: "{{webServerOut1.instance_ids[0]}}"
+        #     Port: 8080 #Tomcat server 
           # - Id: "{{webServerOut2.instance_ids[0]}}"
           #   Port: 22
           # - Id: "{{webServerOut3.instance_ids[0]}}"
