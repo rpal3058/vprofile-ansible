@@ -1,3 +1,6 @@
 ---
-webServerAMI: "ami-0667149a69bc2c367"
+webServerAMI: "ami-0cfedf42e63bba657" 
+dbServerAMI: "ami-0667149a69bc2c367"
+mcServerAMI: "ami-0667149a69bc2c367"
+rmqServerAMI: "ami-0667149a69bc2c367"
 
