@@ -21,7 +21,7 @@
         domain_name: "*.mydevop.co.in"
       register: ACMOut
     - debug:
-        msg: "{{ACMOut.arns}}"
+        msg: "{{ACMOut}}"
 
 #Security Group
   # SG for ELB
