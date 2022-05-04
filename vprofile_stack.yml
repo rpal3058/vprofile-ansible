@@ -214,7 +214,7 @@
       register: rmqServerOut1
 
     - debug:
-        msg: "{{webServerOut1.instance_ids[0]}}"     
+        msg: "{{webServerOut1}}"     
     # - name: create an EC2 instance for the RMQ in private subnet 2 [Not created here but add it if required. Copy from above and make sure to rename vpc_subnet_id, instance_tags, count_tag]
     # - name: create an EC2 instance for the RMQ in private subnet 3 [Not created here but add it if required. Copy from above and make sure to rename vpc_subnet_id, instance_tags, count_tag]
 
