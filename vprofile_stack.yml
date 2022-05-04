@@ -20,8 +20,6 @@
         region: "{{resources.Region}}"
         domain_name: "*.mydevop.co.in"
       register: ACMOut
-    - debug:
-        msg: "{{ACMOut}}"
 
 #Security Group
   # SG for ELB
@@ -271,6 +269,9 @@
               - Type: forward 
                 TargetGroupName: "{{ElbTgOut.target_group_name }}"
       register: ElbOut
+
+    - debug:
+        msg: "{{ElbOut}}"  
 
 # Creating an inventory file that defines the hosts (i.e managed nodes) and groups of hosts upon which commands, modules, and tasks in a playbook operate
 # set the host name 
