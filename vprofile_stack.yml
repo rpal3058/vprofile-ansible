@@ -226,7 +226,7 @@
         region: "{{resources.Region}}"
         health_check_protocol: http
         health_check_path: /health_check
-        health_check_port: 80
+        health_check_port: 8080
         successful_response_codes: 200
         health_check_interval: 15
         health_check_timeout: 3
