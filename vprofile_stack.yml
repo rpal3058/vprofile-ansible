@@ -266,7 +266,7 @@
             Port: 443 #The port on which the load balancer is listening.
             SslPolicy: ELBSecurityPolicy-2016-08   # The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
             Certificates: # The ARN of the certificate (only one certficate ARN should be provided)
-              - CertificateArn: "{{ACMOut.arns}}"
+              - CertificateArn: "{{ACMOut.certificates[0].certificate_arn}}"
             DefaultActions:
               - Type: forward 
                 TargetGroupName: "{{ElbTgOut.target_group_name }}"
