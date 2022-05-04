@@ -219,7 +219,7 @@
 # Load Balancer
     - name: Create a target group with a default health check
       elb_target_group:
-        name: mytargetgroup
+        name: vprofileTG
         protocol: http
         port: 8080
         vpc_id: "{{resources.VPC}}"
@@ -233,20 +233,6 @@
         healthy_threshold_count: 4
         unhealthy_threshold_count: 3
         state: present
-        # name: vprofileTG
-        # region: "{{resources.Region}}"
-        # protocol: http
-        # port: 8080
-        # vpc_id: "{{resources.VPC}}"
-        # state: present
-        # health_check_protocol: http
-        # health_check_path: /login
-        # health_check_port: 8080
-        # # successful_response_codes: 200
-        # health_check_interval: 15
-        # health_check_timeout: 3
-        # healthy_threshold_count: 4
-        # unhealthy_threshold_count: 3
         # targets:
         #   - Id: "{{webServerOut1.instance_ids[0]}}"
         #     Port: 8080 #Tomcat server 
