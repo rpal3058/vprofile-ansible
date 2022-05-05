@@ -281,11 +281,11 @@
       blockinfile:
         path: ./ResourcesMgmt/hostFile
         block: |
-          web ansible_host: {{webServerOut1.tagged_instances[0].private_ip}}
-          db ansible_host: {{dbServerOut1.tagged_instances[0].private_ip}}
-          mc ansible_host: {{mcServerOut1.tagged_instances[0].private_ip}}
-          rmq ansible_host: {{rmqServerOut1.tagged_instances[0].private_ip}}
-          elb ansible_host: {{ElbOut.load_balancer_arn}}
+          web ansible_host={{webServerOut1.tagged_instances[0].private_ip}}
+          db ansible_host={{dbServerOut1.tagged_instances[0].private_ip}}
+          mc ansible_host={{mcServerOut1.tagged_instances[0].private_ip}}
+          rmq ansible_host={{rmqServerOut1.tagged_instances[0].private_ip}}
+          elb ansible_host={{ElbOut.load_balancer_arn}}
 
           [webServer]
           web
