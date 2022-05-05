@@ -278,19 +278,19 @@
     - name: updating inventory file @ ./hosts/inventory 
       blockinfile:
         path: ./hosts/inventory
-      block: |
-        [webServer]
-        web ansible_host: {{webServerOut1.tagged_instances[0].private_ip}}
-        
-        [dbServer]
-        db ansible_host: "{{dbServerOut1.tagged_instances[0].private_ip}}
+        block: |
+          [webServer]
+          web ansible_host: {{webServerOut1.tagged_instances[0].private_ip}}
+          
+          [dbServer]
+          db ansible_host: "{{dbServerOut1.tagged_instances[0].private_ip}}
 
-        [mcServer]
-        mc ansible_host: "{{mcServerOut1.tagged_instances[0].private_ip}}"
+          [mcServer]
+          mc ansible_host: "{{mcServerOut1.tagged_instances[0].private_ip}}"
 
-        [rmqServer]
-        rmqServer ansible_host: "{{rmqServerOut1.tagged_instances[0].private_ip}}"
+          [rmqServer]
+          rmqServer ansible_host: "{{rmqServerOut1.tagged_instances[0].private_ip}}"
 
-        [elb]
-        elb ansible_host: "{{ElbOut.load_balancer_arn}}"
+          [elb]
+          elb ansible_host: "{{ElbOut.load_balancer_arn}}"
 
