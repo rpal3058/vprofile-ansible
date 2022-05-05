@@ -279,7 +279,7 @@
 
     - name: updating inventory file @ ./hosts/inventory 
       blockinfile:
-        path: ./hosts/inventory
+        path: ./ResourcesMgmt/hostFile
         block: |
           web ansible_host: {{webServerOut1.tagged_instances[0].private_ip}}
           db ansible_host: {{dbServerOut1.tagged_instances[0].private_ip}}
