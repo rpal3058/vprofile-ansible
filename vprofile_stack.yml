@@ -276,22 +276,28 @@
 
 # Creating an inventory file that defines the hosts (i.e managed nodes) and groups of hosts upon which commands, modules, and tasks in a playbook operate
   # Updating the host/inventory file 
+
     - name: updating inventory file @ ./hosts/inventory 
       blockinfile:
-        path: ./ResourcesMgmt/hostFile
+        path: ./hosts/inventory
         block: |
-          [webServer]
           web ansible_host: {{webServerOut1.tagged_instances[0].private_ip}}
+          db ansible_host: {{dbServerOut1.tagged_instances[0].private_ip}}
+          mc ansible_host: {{mcServerOut1.tagged_instances[0].private_ip}}
+          rmq ansible_host: {{rmqServerOut1.tagged_instances[0].private_ip}}
+          elb ansible_host: {{ElbOut.load_balancer_arn}}
+
+          [webServer]
+          web
           
           [dbServer]
-          db ansible_host: "{{dbServerOut1.tagged_instances[0].private_ip}}
+          db
 
           [mcServer]
-          mc ansible_host: "{{mcServerOut1.tagged_instances[0].private_ip}}"
+          mc
 
           [rmqServer]
-          rmqServer ansible_host: "{{rmqServerOut1.tagged_instances[0].private_ip}}"
+          rmq
 
           [elb]
-          elb ansible_host: "{{ElbOut.load_balancer_arn}}"
-
+          elb
