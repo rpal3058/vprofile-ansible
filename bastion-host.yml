@@ -59,6 +59,8 @@
           Project: Vprofile
       register: bastionInstanceOut 
 
+    - debug: 
+        msg: "{{keyOut.key.private_key}}"  
 
     - name: setting fact for this playbook  
       set_fact:
@@ -79,3 +81,4 @@
           BastionSG_name: {{sgOut.group_name}}
           BastionSG_accID: {{sgOut.owner_id}}
           BastionHost: {{bastionInstanceOut.tagged_instances[0].id}}
+
