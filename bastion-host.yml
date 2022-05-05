@@ -70,11 +70,6 @@
       ansible.builtin.copy:  
         content: "{{keyOut.key.private_key}}"
         dest: ./bastion_keypair.pem
-    
-    - name: Changing permission of "./bastion_keypair.pem", adding "+x"
-      file: 
-        path: ./bastion_keypair.pem
-        mode: a-rwx,u+rx
 
     - name: Insert/Update bastion id to the resource id text
       blockinfile:
