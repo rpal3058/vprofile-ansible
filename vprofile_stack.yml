@@ -141,6 +141,7 @@
         count_tag: 
           Name: "vprofile-webserver-instance-1"
           Project: Vprofile
+        assign_public_ip: yes  
       register: webServerOut1
 
     # - name: create an EC2 instance for the Tomcat webserver in private subnet 2 [Not created here but add it if required. Copy from above and make sure to rename vpc_subnet_id, instance_tags, count_tag]
