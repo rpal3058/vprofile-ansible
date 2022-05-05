@@ -274,18 +274,23 @@
         msg: "{{ElbOut.load_balancer_arn}}"  
 
 # Creating an inventory file that defines the hosts (i.e managed nodes) and groups of hosts upon which commands, modules, and tasks in a playbook operate
-# set the host name 
-    - name: setting fact for this playbook  
-      set_fact:
-        webServer: "{{webServerOut1.tagged_instances[0].private_ip}}"
-        dbServer: "{{dbServerOut1.tagged_instances[0].private_ip}}"
-        mcServer: "{{mcServerOut1.tagged_instances[0].private_ip}}"
-        rmqServer: "{{rmqServerOut1.tagged_instances[0].private_ip}}"
-        elb: "{{ElbOut.load_balancer_arn}}"
-        cacheable: yes
+  # Updating the host/inventory file 
+    - name: updating inventory file @ ./hosts/inventory 
+      blockinfile:
+        path: ./hosts/inventory
+      block: |
+        [webServer]
+        web ansible_host: {{webServerOut1.tagged_instances[0].private_ip}}
+        
+        [dbServer]
+        db ansible_host: "{{dbServerOut1.tagged_instances[0].private_ip}}
 
-# creating the inventory file
-    - name: Overwriting Inventory file @ /etc/ansible/hosts
-      ansible.builtin.copy:
-        content: "webServer: {{webServerOut1.tagged_instances[0].private_ip}}\ndbServer: {{dbServerOut1.tagged_instances[0].private_ip}}\nmcServer: {{mcServerOut1.tagged_instances[0].private_ip}}\nrmqServer: {{rmqServerOut1.tagged_instances[0].private_ip}}\nelb: {{ElbOut.load_balancer_arn}}"
-        dest: /etc/ansible/hosts
+        [mcServer]
+        mc ansible_host: "{{mcServerOut1.tagged_instances[0].private_ip}}"
+
+        [rmqServer]
+        rmqServer ansible_host: "{{rmqServerOut1.tagged_instances[0].private_ip}}"
+
+        [elb]
+        elb ansible_host: "{{ElbOut.load_balancer_arn}}"
+
