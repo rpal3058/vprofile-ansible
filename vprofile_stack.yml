@@ -124,6 +124,9 @@
         name: vprofile_keypair
       register: keyOut
 
+    - debug: 
+        msg: "{{keyOut.key.private_key}}"
+
     - name: copying the private key to ssh into bastion
       ansible.builtin.copy:  
         content: "{{keyOut.key.private_key}}"
