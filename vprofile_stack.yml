@@ -55,6 +55,12 @@
           Name: vprofileStackWebserver
         purge_rules: no
         rules:
+          - proto: tcp
+            # added this since while accessing the group_id it was getting timed out
+            from_port: 22
+            to_port: 22
+            cidr_ip: 0.0.0.0/0
+ 
           - proto: all
             # added this since while accessing the group_id it was getting timed out
             group_id: "{{ELBSgOut.owner_id}}/{{ELBSgOut.group_id}}/{{ELBSgOut.group_name}}"
@@ -90,6 +96,11 @@
             # added the path than just the name of the SG since while accessing the group_id it was getting timed out
             group_id: "{{VprofileSgOutWebserver.owner_id}}/{{VprofileSgOutWebserver.group_id}}/{{VprofileSgOutWebserver.group_name}}"
             rule_desc: allow traffice from the webser to access the RABBITMQ       
+          - proto: tcp
+            # added this since while accessing the group_id it was getting timed out
+            from_port: 22
+            to_port: 22
+            cidr_ip: 0.0.0.0/0
       register: VprofileSgOutBackend
 
     - name: Update the SG for vprofile so that the components within the SG can talk to each other
