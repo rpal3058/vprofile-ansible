@@ -143,6 +143,11 @@
         content: "{{keyOut.key.private_key}}"
         dest: ./vprofile_keypair.pem
 
+    - name: changing the access of the key 
+      ansible.builtin.file:
+        path: ./vprofile_keypair.pem
+        mode: '700'    
+
     - name: create an EC2 instance for the Tomcat webserver in private subnet 1
       ec2:
         region: "{{resources.Region}}"
