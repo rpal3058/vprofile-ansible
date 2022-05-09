@@ -146,7 +146,8 @@
     - name: changing the access of the key 
       ansible.builtin.file:
         path: ./vprofile_keypair.pem
-        mode: '700'    
+        mode: '700'
+
 
     - name: create an EC2 instance for the Tomcat webserver in private subnet 1
       ec2:
@@ -167,6 +168,7 @@
           Project: Vprofile
         assign_public_ip: yes  
       register: webServerOut1
+      when: keyOut.changed==true
 
     # - name: create an EC2 instance for the Tomcat webserver in private subnet 2 [Not created here but add it if required. Copy from above and make sure to rename vpc_subnet_id, instance_tags, count_tag]
     # - name: create an EC2 instance for the Tomcat webserver in private subnet 3 [Not created here but add it if required. Copy from above and make sure to rename vpc_subnet_id, instance_tags, count_tag]
