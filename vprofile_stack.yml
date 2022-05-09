@@ -285,23 +285,7 @@
       blockinfile:
         path: ./ResourcesMgmt/hostFile
         block: |
-          web ansible_host="{{webServerOut1.tagged_instances[0].private_ip}}"
-          db ansible_host="{{dbServerOut1.tagged_instances[0].private_ip}} " 
-          mc ansible_host="{{mcServerOut1.tagged_instances[0].private_ip}} "
-          rmq ansible_host="{{rmqServerOut1.tagged_instances[0].private_ip}} "
-          # elb ansible_host="{{ElbOut.load_balancer_arn}} ansible_user=ubuntu ansible_ssh_private_key_file="
-
           [webServer]
-          web
-          
-          [dbServer]
-          db
+          {{webServerOut1.tagged_instances[0].private_ip}} ansible_user=ubuntu ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
 
-          [mcServer]
-          mc
 
-          [rmqServer]
-          rmq
-
-          [elb]
-          elb
