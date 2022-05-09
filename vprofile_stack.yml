@@ -144,9 +144,9 @@
         dest: ./vprofile_keypair.pem
 
     - name: changing the access of the key 
-      ansible.builtin.file:
-        path: ./vprofile_keypair.pem
-        mode: '700'    
+        ansible.builtin.file:
+          path: ./vprofile_keypair.pem
+          mode: '700'    
 
     - name: create an EC2 instance for the Tomcat webserver in private subnet 1
       ec2:
@@ -305,6 +305,6 @@
         path: ./ResourcesMgmt/hostFile
         block: |
           [webServer]
-          "ubuntu@{{webServerOut1.tagged_instances[0].private_ip}}" ansible_user=ubuntu ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
+          {{webServerOut1.tagged_instances[0].private_ip}} ansible_user=ubuntu ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
 
 
