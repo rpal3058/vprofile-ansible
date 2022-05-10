@@ -310,26 +310,26 @@
           {{webServerOut1.tagged_instances[0].private_ip}} 
 
           [dbServer]
-          {{dbServerOut1.tagged_instances[0].private_ip}} ansible_user=centos ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
+          {{dbServerOut1.tagged_instances[0].private_ip}} 
 
           [mcServer]
-          {{mcServerOut1.tagged_instances[0].private_ip}} ansible_user=centos ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
+          {{mcServerOut1.tagged_instances[0].private_ip}} 
 
           [rmqServer]
-          {{rmqServerOut1.tagged_instances[0].private_ip}} ansible_user=centos ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
-
-          [webServer: vars]
+          {{rmqServerOut1.tagged_instances[0].private_ip}} 
+          
+          [webServer:vars]
           ansible_user=ubuntu 
           ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
  
-          [dbServer: vars]
+          [dbServer:vars]
           ansible_user=centos 
           ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
 
-          [mcServer: vars]
+          [mcServer:vars]
           ansible_user=centos 
           ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
 
-          [rmqServer: vars]
+          [rmqServer:vars]
           ansible_user=centos 
           ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
