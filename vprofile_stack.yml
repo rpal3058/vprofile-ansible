@@ -317,15 +317,19 @@
 
           [rmqServer]
           {{rmqServerOut1.tagged_instances[0].private_ip}} 
-
+          
           [webServer:vars]
+          ansible_user=ubuntu 
           ansible_ssh_private_key_file=~/vprofile-ansible/vprofile_keypair.pem
- 
+
           [dbServer:vars]
+          ansible_user=centos 
           ansible_ssh_private_key_file=~/vprofile-ansible/vprofile_keypair.pem
 
           [mcServer:vars]
+          ansible_user=centos 
           ansible_ssh_private_key_file=~/vprofile-ansible/vprofile_keypair.pem
 
           [rmqServer:vars]
+          ansible_user=centos 
           ansible_ssh_private_key_file=~/vprofile-ansible/vprofile_keypair.pem
