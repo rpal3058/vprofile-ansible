@@ -307,7 +307,7 @@
         path: ./ResourcesMgmt/hostFile
         block: |
           [webServer]
-          {{webServerOut1.tagged_instances[0].private_ip}} ansible_user=ubuntu ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
+          {{webServerOut1.tagged_instances[0].private_ip}} 
 
           [dbServer]
           {{dbServerOut1.tagged_instances[0].private_ip}} ansible_user=centos ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
@@ -317,8 +317,19 @@
 
           [rmqServer]
           {{rmqServerOut1.tagged_instances[0].private_ip}} ansible_user=centos ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
-    
-    - name: Tell the host about our servers it might want to ssh to
-      known_hosts:
-        path: ~/.ssh/known_hosts
-        name:  "{{webServerOut1.tagged_instances[0].private_ip}}"
+
+          [webServer: vars]
+          ansible_user=ubuntu 
+          ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
+ 
+          [dbServer: vars]
+          ansible_user=centos 
+          ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
+
+          [mcServer: vars]
+          ansible_user=centos 
+          ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
+
+          [rmqServer: vars]
+          ansible_user=centos 
+          ansible_ssh_private_key_file=/home/ec2-user/vprofile-ansible/vprofile_keypair.pem
