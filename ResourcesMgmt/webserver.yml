@@ -4,8 +4,6 @@
   gather_facts: False
   remote_user: ubuntu
   become: true
-  debug:  
-    msg: {{}}
   tasks:
     - name: Update the System Packages
       apt:
