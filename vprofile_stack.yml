@@ -56,13 +56,23 @@
         purge_rules: no
         rules:
           - proto: tcp
-            # added this since while accessing the group_id it was getting timed out
             from_port: 22
             to_port: 22
             cidr_ip: 0.0.0.0/0
- 
+
+          # need access to the http for downloading files
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+
+          - proto: tcp
+            from_port: 443
+            to_port: 443
+            cidr_ip: 0.0.0.0/0
+  
           - proto: all
-            # added this since while accessing the group_id it was getting timed out
+            # added the path to avoid time out while accessing the group_id 
             group_id: "{{ELBSgOut.owner_id}}/{{ELBSgOut.group_id}}/{{ELBSgOut.group_name}}"
             rule_desc: allow ssh for bastion 
       register: VprofileSgOutWebserver
@@ -81,23 +91,22 @@
           - proto: tcp
             from_port: 3306
             to_port: 3306
-            # added the path than just the name of the SG since while accessing the group_id it was getting timed out
+            # added the path to avoid time out while accessing the group_id 
             group_id: "{{VprofileSgOutWebserver.owner_id}}/{{VprofileSgOutWebserver.group_id}}/{{VprofileSgOutWebserver.group_name}}"
             rule_desc: allow traffice from the webser to access the  MYSQL       
           - proto: tcp
             from_port: 11211
             to_port: 11211
-            # added the path than just the name of the SG since while accessing the group_id it was getting timed out
+            # added the path to avoid time out while accessing the group_id 
             group_id: "{{VprofileSgOutWebserver.owner_id}}/{{VprofileSgOutWebserver.group_id}}/{{VprofileSgOutWebserver.group_name}}"
             rule_desc: allow traffice from the webser to access the  MEMCACHE       
           - proto: tcp
             from_port: 5672
             to_port: 5672
-            # added the path than just the name of the SG since while accessing the group_id it was getting timed out
+            # added the path to avoid time out while accessing the group_id 
             group_id: "{{VprofileSgOutWebserver.owner_id}}/{{VprofileSgOutWebserver.group_id}}/{{VprofileSgOutWebserver.group_name}}"
             rule_desc: allow traffice from the webser to access the RABBITMQ       
           - proto: tcp
-            # added this since while accessing the group_id it was getting timed out
             from_port: 22
             to_port: 22
             cidr_ip: 0.0.0.0/0
