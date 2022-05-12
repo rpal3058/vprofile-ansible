@@ -4,19 +4,21 @@
   gather_facts: False
   remote_user: ubuntu
   become: true
+  debug:  
+    msg: {{}}
   tasks:
     - name: Update the System Packages
       apt:
         upgrade: yes
-        update_cache: yes
+        # update_cache: yes
  
-    # - name: Create a Tomcat User
-    #   user:
-    #     name: tomcat
+    - name: Create a Tomcat User
+      user:
+        name: tomcat
  
-    # - name: Create a Tomcat Group
-    #   group:
-    #     name: tomcat
+    - name: Create a Tomcat Group
+      group:
+        name: tomcat
  
     # - name: Install JAVA
     #   apt:
