@@ -101,7 +101,6 @@
         description: sg for NAT
         vpc_id: "{{vpcOut.vpc.id}}"
         region: "{{VPCvariable.region}}"
-        vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
         tags:
           Name: vprofileNAT
         rules:
