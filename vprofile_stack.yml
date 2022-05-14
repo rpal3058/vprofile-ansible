@@ -66,6 +66,7 @@
             to_port: 80
             cidr_ip: 0.0.0.0/0
 
+          # need access to the http for downloading files
           - proto: tcp
             from_port: 443
             to_port: 443

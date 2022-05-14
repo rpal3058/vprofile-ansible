@@ -94,6 +94,56 @@
             Name: Vprofile IGW
       register: igwOut  
 
+    # BEGINNING OF NAT SETUP
+    - name: create an security group for NAT
+      ec2_group:
+        name: vprofile-NAT
+        description: sg for NAT
+        vpc_id: "{{vpcOut.vpc.id}}"
+        region: "{{VPCvariable.region}}"
+        vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
+        tags:
+          Name: vprofileNAT
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80          
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic from port 80        
+          - proto: tcp
+            from_port: 443
+            to_port: 443         
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic from port 443           
+          - proto: tcp
+            from_port: 20
+            to_port: 20        
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic from port 443                      
+          - proto: icmp
+            from_port: -1
+            to_port: -1        
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all traffic for ping                       
+      register: NATSgOut
+
+    - name: Create EC2 NAT instance
+      ec2:
+        instance_type: t2.micro
+        image: "{{VPCvariable.nat}}"
+        wait: yes
+        vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
+        assign_public_ip: yes
+        group_id: "{{NATSgOut.group_id}}"
+        instance_tags:
+          Name: Vprofile_NAT
+        exact_count: 1
+        count_tag:
+          Name: Vprofile_NAT
+        source_dest_check: False  
+      register: natOut    
+  # END OF NAT SETUP
+  
     - name: Set up public subnet route table 
       ec2_vpc_route_table:
         vpc_id: "{{vpcOut.vpc.id}}"
@@ -108,31 +158,21 @@
           - dest: 0.0.0.0/0
             gateway_id: "{{ igwOut.gateway_id }}"
       register: pubRTOut   
-    
-    # - name: Create new nat gateway and allocate new EIP in public subnets if a nat gateway does not yet exist in the subnet.
-    #   ec2_vpc_nat_gateway:
-    #     state: "{{state}}"
-    #     subnet_id: "{{pubSub1Out.subnet.id}}"
-    #     region: "{{region}}"
-    #     if_exist_do_not_create: true
-    #     wait: true
-    # #   register: natOut
 
-    # - name: Set up private subnet route table to NAT
-    #   ec2_vpc_route_table:
-    #     vpc_id: "{{vpcOut.vpc.id}}"
-    #     region: "{{region}}"
-    #     resource_tags:
-    #       Name: Vprofile privateRT
-    #     subnets:
-    #       - "{{pvtSub1Out.subnet.id}}"
-    #       - "{{pvtSub2Out.subnet.id}}"
-    #       - "{{pvtSub3Out.subnet.id}}"
-    #     routes:
-    #       - dest: 0.0.0.0/0
-    #         gateway_id: "{{ natOut.nat_gateway_id }}"
-    #   register: pvtRTOut
-
+    - name: Set up private subnet route table associated with each private subnet and routing all traffic to NAT
+      ec2_vpc_route_table:
+        vpc_id: "{{vpcOut.vpc.id}}"
+        region: "{{region}}"
+        resource_tags:
+          Name: Vprofile privateRT
+        subnets:
+          - "{{pvtSub1Out.subnet.id}}"
+          - "{{pvtSub2Out.subnet.id}}"
+          - "{{pvtSub3Out.subnet.id}}"
+        routes:
+          - dest: 0.0.0.0/0
+            instance_id: "{{ natOut.instance_id }}"
+      register: pvtRTOut
     
     - debug:
         var: "{{item}}"
@@ -146,9 +186,8 @@
         - pvtSub3Out.subnet.id
         - igwOut.gateway_id
         - pubRTOut.route_table.id
-        # - natOut.nat_gateway_id 
-        # - pvtRTOut.route_table.id
-
+        - natOut.instance_id
+        - pvtRTOut.route_table.id
 
     - name: setting fact for this playbook  
       set_fact:
@@ -161,15 +200,24 @@
         pvtSub3ID: "{{pvtSub3Out.subnet.id}}"
         igwID: "{{igwOut.gateway_id}}"
         pubRtID: "{{pubRTOut.route_table.id}}"
-        # natID:  "{{natOut.nat_gateway_id}}"
-        # PvtRtID: "{{pvtRTOut.route_table.id}}"
+        natID:  "{{natOut.instance_id}}"
+        PvtRtID: "{{pvtRTOut.route_table.id}}"
         cacheable: yes
     
     - name: copying all the variable to a file
       ansible.builtin.copy:
-        content: "---\nRegion: {{VPCvariable.region}}\nVPC: {{vpcOut.vpc.id}}\nPublicSubnet1: {{pubSub1Out.subnet.id}}\nPublicSubnet2: {{pubSub2Out.subnet.id}}\nPublicSubnet3: {{pubSub3Out.subnet.id}}\nPrivateSubnet1: {{pvtSub1Out.subnet.id}}\nPrivateSubnet2: {{pvtSub2Out.subnet.id}}\nPrivateSubnet3: {{pvtSub3Out.subnet.id}}\nIGW: {{igwOut.gateway_id}}\nPublicRoute: {{pubRTOut.route_table.id}}"
+        content: "---\nRegion: {{VPCvariable.region}}\nVPC: {{vpcOut.vpc.id}}\nPublicSubnet1: {{pubSub1Out.subnet.id}}\nPublicSubnet2: {{pubSub2Out.subnet.id}}\nPublicSubnet3: {{pubSub3Out.subnet.id}}\nPrivateSubnet1: {{pvtSub1Out.subnet.id}}\nPrivateSubnet2: {{pvtSub2Out.subnet.id}}\nPrivateSubnet3: {{pvtSub3Out.subnet.id}}\nIGW: {{igwOut.gateway_id}}\nPublicRoute: {{pubRTOut.route_table.id}}\nnatID: {{natOut.instance_id}}"
         dest: ./var/resource_id.yml
 
+    # DUMP
+    # - name: Create new nat gateway and allocate new EIP in public subnets if a nat gateway does not yet exist in the subnet.
+    #   ec2_vpc_nat_gateway:
+    #     state: "{{state}}"
+    #     subnet_id: "{{pubSub1Out.subnet.id}}"
+    #     region: "{{region}}"
+    #     if_exist_do_not_create: true
+    #     wait: true
+    # #   register: natOut
 
 
 
