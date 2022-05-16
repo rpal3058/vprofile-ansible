@@ -141,7 +141,9 @@
         count_tag:
           Name: Vprofile_NAT
         source_dest_check: False  
-      register: natOut    
+      register: natOut
+    - debug:
+        msg: natOut      
   # END OF NAT SETUP
   
     - name: Set up public subnet route table 
