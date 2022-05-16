@@ -20,7 +20,7 @@ az1: 'ap-south-1a'
 az2: 'ap-south-1b'
 az3: 'ap-south-1c'
 
-state: present
+state: 'present'
 
 #NAT AMI
 nat: 'ami-00999044593c895de'
