@@ -162,7 +162,7 @@
     - name: Set up private subnet route table associated with each private subnet and routing all traffic to NAT
       ec2_vpc_route_table:
         vpc_id: "{{vpcOut.vpc.id}}"
-        region: "{{region}}"
+        region: "{{VPCvariable.region}}"
         resource_tags:
           Name: Vprofile privateRT
         subnets:
