@@ -127,10 +127,10 @@
       register: NATSgOut
 
     - name: Create EC2 NAT instance
-      ec2:
+      ec2_instance:
         instance_type: t2.micro
         region: "{{VPCvariable.region}}"
-        image: 'ami-0a3277ffce9146b74'
+        image: "{{VPCvariable.nat}}"
         wait: yes
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
         assign_public_ip: yes
