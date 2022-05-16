@@ -142,8 +142,6 @@
           Name: Vprofile_NAT
         source_dest_check: False  
       register: natOut
-    - debug:
-        msg: "{{natOut}}"      
   # END OF NAT SETUP
   
     - name: Set up public subnet route table 
@@ -173,7 +171,7 @@
           - "{{pvtSub3Out.subnet.id}}"
         routes:
           - dest: 0.0.0.0/0
-            instance_id: "{{ natOut.instance_id }}"
+            instance_id: "{{ natOut.tagged_instances[0].private_ip }}"
       register: pvtRTOut
     
     - debug:
