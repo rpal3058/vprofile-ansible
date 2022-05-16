@@ -130,7 +130,7 @@
       ec2_instance:
         instance_type: t2.micro
         region: "{{VPCvariable.region}}"
-        image: ami-00999044593c895de
+        image: 'ami-00999044593c895de'
         wait: yes
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
         assign_public_ip: yes
