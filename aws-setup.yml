@@ -160,7 +160,7 @@
       register: pubRTOut   
 
     - name: Set up private subnet route table associated with each private subnet and routing all traffic to NAT
-      ec2_vpc_route_table:
+      community.aws.ec2_vpc_route_table:
         vpc_id: "{{vpcOut.vpc.id}}"
         region: "{{VPCvariable.region}}"
         resource_tags:
@@ -171,7 +171,7 @@
           - "{{pvtSub3Out.subnet.id}}"
         routes:
           - dest: 0.0.0.0/0
-            instance_id: "{{ natOut.tagged_instances[0].private_ip }}"
+            instance_id: "{{ natOut.tagged_instances[0].id }}"
       register: pvtRTOut
     
     - debug:
