@@ -143,7 +143,7 @@
         source_dest_check: False  
       register: natOut
     - debug:
-        msg: natOut      
+        msg: "{{natOut}}"      
   # END OF NAT SETUP
   
     - name: Set up public subnet route table 
