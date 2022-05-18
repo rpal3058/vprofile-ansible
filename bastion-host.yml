@@ -49,7 +49,7 @@
         region: "{{resources.Region}}"
         image: "{{bastionVar.ami}}"
         group_id: "{{sgOut.group_id}}"
-        vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
+        vpc_subnet_id: "{{resources.pubSub1Out.subnet.id}}"
         instance_tags:
           Name: "vprofile-bastion-instance"
           Project: Vprofile
