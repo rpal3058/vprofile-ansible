@@ -176,7 +176,7 @@
         count_tag: 
           Name: "vprofile-webserver-instance-1"
           Project: Vprofile
-        assign_public_ip: yes  
+        assign_public_ip: no
       register: webServerOut1
       when: keyOut.changed==true
 
@@ -188,6 +188,7 @@
     - name: create an EC2 instance for the MSQL in private subnet 1
       ec2:
         region: "{{resources.Region}}"
+        assign_public_ip: no
         key_name: vprofile_keypair
         instance_type: t2.micro
         image: "{{VprofileVariable.dbServerAMI}}"
@@ -211,6 +212,7 @@
     - name: create an EC2 instance for the MEMCACHE in private subnet 1
       ec2:
         region: "{{resources.Region}}"
+        assign_public_ip: no
         key_name: vprofile_keypair
         instance_type: t2.micro
         image: "{{VprofileVariable.mcServerAMI}}"
@@ -234,6 +236,7 @@
     - name: create an EC2 instance for the RABBITMQ in private subnet 1
       ec2:
         region: "{{resources.Region}}"
+        assign_public_ip: no
         key_name: vprofile_keypair
         instance_type: t2.micro
         image: "{{VprofileVariable.rmqServerAMI}}"
