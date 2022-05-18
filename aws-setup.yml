@@ -28,29 +28,29 @@
           Name: Vprofile Public Subnet 1
       register: pubSub1Out  
 
-    - name: Create public subnet 2 
-      ec2_vpc_subnet:
-        region: "{{VPCvariable.region}}"
-        state: "{{VPCvariable.state}}"
-        vpc_id: "{{vpcOut.vpc.id}}"
-        cidr: "{{VPCvariable.pubSub2CIDR}}"
-        az: "{{VPCvariable.az2}}"
-        map_public: yes
-        tags:
-          Name: Vprofile Public Subnet 2
-      register: pubSub2Out  
+    # - name: Create public subnet 2 
+    #   ec2_vpc_subnet:
+    #     region: "{{VPCvariable.region}}"
+    #     state: "{{VPCvariable.state}}"
+    #     vpc_id: "{{vpcOut.vpc.id}}"
+    #     cidr: "{{VPCvariable.pubSub2CIDR}}"
+    #     az: "{{VPCvariable.az2}}"
+    #     map_public: yes
+    #     tags:
+    #       Name: Vprofile Public Subnet 2
+    #   register: pubSub2Out  
       
-    - name: Create public subnet 3 
-      ec2_vpc_subnet:
-        region: "{{VPCvariable.region}}"
-        state: "{{VPCvariable.state}}"
-        vpc_id: "{{vpcOut.vpc.id}}"
-        cidr: "{{VPCvariable.pubSub3CIDR}}"
-        az: "{{VPCvariable.az3}}"
-        map_public: yes
-        tags:
-          Name: Vprofile Public Subnet 3
-      register: pubSub3Out  
+    # - name: Create public subnet 3 
+    #   ec2_vpc_subnet:
+    #     region: "{{VPCvariable.region}}"
+    #     state: "{{VPCvariable.state}}"
+    #     vpc_id: "{{vpcOut.vpc.id}}"
+    #     cidr: "{{VPCvariable.pubSub3CIDR}}"
+    #     az: "{{VPCvariable.az3}}"
+    #     map_public: yes
+    #     tags:
+    #       Name: Vprofile Public Subnet 3
+    #   register: pubSub3Out  
 
     - name: Create private subnet 1
       ec2_vpc_subnet:
@@ -63,27 +63,27 @@
           Name: Vprofile Private Subnet 1
       register: pvtSub1Out  
 
-    - name: Create private subnet 2
-      ec2_vpc_subnet:
-        region: "{{VPCvariable.region}}"
-        state: "{{VPCvariable.state}}"
-        vpc_id: "{{vpcOut.vpc.id}}"
-        cidr: "{{VPCvariable.pvtSub2CIDR}}"
-        az: "{{VPCvariable.az2}}"
-        tags:
-          Name: Vprofile Private Subnet 2
-      register: pvtSub2Out  
+    # - name: Create private subnet 2
+    #   ec2_vpc_subnet:
+    #     region: "{{VPCvariable.region}}"
+    #     state: "{{VPCvariable.state}}"
+    #     vpc_id: "{{vpcOut.vpc.id}}"
+    #     cidr: "{{VPCvariable.pvtSub2CIDR}}"
+    #     az: "{{VPCvariable.az2}}"
+    #     tags:
+    #       Name: Vprofile Private Subnet 2
+    #   register: pvtSub2Out  
 
-    - name: Create private subnet 3
-      ec2_vpc_subnet:
-        region: "{{VPCvariable.region}}"
-        state: "{{VPCvariable.state}}"
-        vpc_id: "{{vpcOut.vpc.id}}"
-        cidr: "{{VPCvariable.pvtSub3CIDR}}"
-        az: "{{VPCvariable.az3}}"
-        tags:
-          Name: Vprofile Private Subnet 3
-      register: pvtSub3Out  
+    # - name: Create private subnet 3
+    #   ec2_vpc_subnet:
+    #     region: "{{VPCvariable.region}}"
+    #     state: "{{VPCvariable.state}}"
+    #     vpc_id: "{{vpcOut.vpc.id}}"
+    #     cidr: "{{VPCvariable.pvtSub3CIDR}}"
+    #     az: "{{VPCvariable.az3}}"
+    #     tags:
+    #       Name: Vprofile Private Subnet 3
+    #   register: pvtSub3Out  
 
     - name: Create Internet gateway with tags
       ec2_vpc_igw:
@@ -152,8 +152,8 @@
           Name: Vprofile publicRT
         subnets:
           - "{{pubSub1Out.subnet.id}}"
-          - "{{pubSub2Out.subnet.id}}"
-          - "{{pubSub3Out.subnet.id}}"
+          # - "{{pubSub2Out.subnet.id}}"
+          # - "{{pubSub3Out.subnet.id}}"
         routes:
           - dest: 0.0.0.0/0
             gateway_id: "{{ igwOut.gateway_id }}"
@@ -167,8 +167,8 @@
           Name: Vprofile privateRT
         subnets:
           - "{{pvtSub1Out.subnet.id}}"
-          - "{{pvtSub2Out.subnet.id}}"
-          - "{{pvtSub3Out.subnet.id}}"
+          # - "{{pvtSub2Out.subnet.id}}"
+          # - "{{pvtSub3Out.subnet.id}}"
         routes:
           - dest: 0.0.0.0/0
             instance_id: "{{ natOut.tagged_instances[0].id }}"
@@ -179,11 +179,11 @@
       loop:
         - vpcOut.vpc.id
         - pubSub1Out.subnet.id
-        - pubSub2Out.subnet.id
-        - pubSub3Out.subnet.id
-        - pvtSub3Out.subnet.id
-        - pvtSub3Out.subnet.id
-        - pvtSub3Out.subnet.id
+        # - pubSub2Out.subnet.id
+        # - pubSub3Out.subnet.id
+        - pvtSub1Out.subnet.id
+        # - pvtSub2Out.subnet.id
+        # - pvtSub3Out.subnet.id
         - igwOut.gateway_id
         - pubRTOut.route_table.id
         - natOut.instance_id
@@ -193,11 +193,11 @@
       set_fact:
         vpcID: "{{vpcOut.vpc.id}}"
         pubSub1ID: "{{pubSub1Out.subnet.id}}"
-        pubSub2ID: "{{pubSub2Out.subnet.id}}"
-        pubSub3ID: "{{pubSub3Out.subnet.id}}"
+        # pubSub2ID: "{{pubSub2Out.subnet.id}}"
+        # pubSub3ID: "{{pubSub3Out.subnet.id}}"
         pvtSub1ID: "{{pvtSub1Out.subnet.id}}"
-        pvtSub2ID: "{{pvtSub2Out.subnet.id}}"
-        pvtSub3ID: "{{pvtSub3Out.subnet.id}}"
+        # pvtSub2ID: "{{pvtSub2Out.subnet.id}}"
+        # pvtSub3ID: "{{pvtSub3Out.subnet.id}}"
         igwID: "{{igwOut.gateway_id}}"
         pubRtID: "{{pubRTOut.route_table.id}}"
         natID:  "{{natOut.tagged_instances[0].id}}"
@@ -206,7 +206,10 @@
     
     - name: copying all the variable to a file
       ansible.builtin.copy:
-        content: "---\nRegion: {{VPCvariable.region}}\nVPC: {{vpcOut.vpc.id}}\nPublicSubnet1: {{pubSub1Out.subnet.id}}\nPublicSubnet2: {{pubSub2Out.subnet.id}}\nPublicSubnet3: {{pubSub3Out.subnet.id}}\nPrivateSubnet1: {{pvtSub1Out.subnet.id}}\nPrivateSubnet2: {{pvtSub2Out.subnet.id}}\nPrivateSubnet3: {{pvtSub3Out.subnet.id}}\nIGW: {{igwOut.gateway_id}}\nPublicRoute: {{pubRTOut.route_table.id}}\nnatID: {{natOut.tagged_instances[0].id}}\nPvtRtID: {{pvtRTOut.route_table.id}}"
+        # One subnet 1 has been added
+        content: "---\nRegion: {{VPCvariable.region}}\nVPC: {{vpcOut.vpc.id}}\nPublicSubnet1: {{pubSub1Out.subnet.id}}\nPrivateSubnet1: {{pvtSub1Out.subnet.id}}\nIGW: {{igwOut.gateway_id}}\nPublicRoute: {{pubRTOut.route_table.id}}\nnatID: {{natOut.tagged_instances[0].id}}\nPvtRtID: {{pvtRTOut.route_table.id}}"
+        # Keeping all the subnet id  
+        # content: "---\nRegion: {{VPCvariable.region}}\nVPC: {{vpcOut.vpc.id}}\nPublicSubnet1: {{pubSub1Out.subnet.id}}\nPublicSubnet2: {{pubSub2Out.subnet.id}}\nPublicSubnet3: {{pubSub3Out.subnet.id}}\nPrivateSubnet1: {{pvtSub1Out.subnet.id}}\nPrivateSubnet2: {{pvtSub2Out.subnet.id}}\nPrivateSubnet3: {{pvtSub3Out.subnet.id}}\nIGW: {{igwOut.gateway_id}}\nPublicRoute: {{pubRTOut.route_table.id}}\nnatID: {{natOut.tagged_instances[0].id}}\nPvtRtID: {{pvtRTOut.route_table.id}}"
         dest: ./var/resource_id.yml
 
     # DUMP

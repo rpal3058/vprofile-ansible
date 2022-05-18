@@ -249,7 +249,6 @@
           Name: "vprofile-rmqserver-instance-1"
           Project: Vprofile
       register: rmqServerOut1
-
  
     # - name: create an EC2 instance for the RMQ in private subnet 2 [Not created here but add it if required. Copy from above and make sure to rename vpc_subnet_id, instance_tags, count_tag]
     # - name: create an EC2 instance for the RMQ in private subnet 3 [Not created here but add it if required. Copy from above and make sure to rename vpc_subnet_id, instance_tags, count_tag]
@@ -274,10 +273,6 @@
         targets:
           - Id: "{{webServerOut1.tagged_instances[0].id}}"
             Port: 8080 #Tomcat server 
-        #   # - Id: "{{webServerOut2.instance_ids[0]}}"
-          #   Port: 22
-          # - Id: "{{webServerOut3.instance_ids[0]}}"
-          #   Port: 22
       register: ElbTgOut  
 
     - name: Creating an Application Load Balancer which will connect to all the private subnet and launch the required resources
@@ -287,8 +282,8 @@
         security_groups: "{{ELBSgOut.group_id}}"
         subnets: 
           - "{{resources.PublicSubnet1}}"
-          - "{{resources.PublicSubnet2}}"
-          - "{{resources.PublicSubnet3}}"
+          # - "{{resources.PublicSubnet2}}"
+          # - "{{resources.PublicSubnet3}}"
         listeners:
           - Protocol: HTTP # The protocol for connections from clients to the load balancer (HTTP or HTTPS) (case-sensitive).
             Port: 80 #The port on which the load balancer is listening.
