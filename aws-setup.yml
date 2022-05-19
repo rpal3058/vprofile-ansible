@@ -161,6 +161,10 @@
             gateway_id: "{{ igwOut.gateway_id }}"
       register: pubRTOut   
 
+    - name: Pausing for 2 minutes for NAT EC2 instance to come up
+      pause:
+       minutes: 5
+
     - name: Set up private subnet route table associated with each private subnet and routing all traffic to NAT
       community.aws.ec2_vpc_route_table:
         vpc_id: "{{vpcOut.vpc.id}}"
