@@ -133,14 +133,14 @@
         image_id: "{{VPCvariable.nat}}"
         wait: yes
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
-        assign_public_ip: yes
-        group_id: "{{NATSgOut.group_id}}"
+        assign_public_ip: true
+        security_group: "{{NATSgOut.group_id}}"
         instance_tags:
           Name: Vprofile_NAT
         exact_count: 1
-        count_tag:
+        tags:
           Name: Vprofile_NAT
-        source_dest_check: False  
+        network.source_dest_check: false  
       register: natOut
   # END OF NAT SETUP
   
