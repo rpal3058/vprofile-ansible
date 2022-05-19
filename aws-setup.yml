@@ -173,7 +173,7 @@
           # - "{{pvtSub3Out.subnet.id}}"
         routes:
           - dest: 0.0.0.0/0
-            instance_id: "{{ natOut.tagged_instances[0].id }}"
+            instance_id: "{{ natOut.instances[0].instance_id }}"
       register: pvtRTOut
     
     - debug:
@@ -202,14 +202,14 @@
         # pvtSub3ID: "{{pvtSub3Out.subnet.id}}"
         igwID: "{{igwOut.gateway_id}}"
         pubRtID: "{{pubRTOut.route_table.id}}"
-        natID:  "{{natOut.tagged_instances[0].id}}"
+        natID:  "{{natOut.instances[0].instance_id}}"
         PvtRtID: "{{pvtRTOut.route_table.id}}"
         cacheable: yes
     
     - name: copying all the variable to a file
       ansible.builtin.copy:
         # One subnet 1 has been added
-        content: "---\nRegion: {{VPCvariable.region}}\nVPC: {{vpcOut.vpc.id}}\nPublicSubnet1: {{pubSub1Out.subnet.id}}\nPrivateSubnet1: {{pvtSub1Out.subnet.id}}\nIGW: {{igwOut.gateway_id}}\nPublicRoute: {{pubRTOut.route_table.id}}\nnatID: {{natOut.tagged_instances[0].id}}\nPvtRtID: {{pvtRTOut.route_table.id}}"
+        content: "---\nRegion: {{VPCvariable.region}}\nVPC: {{vpcOut.vpc.id}}\nPublicSubnet1: {{pubSub1Out.subnet.id}}\nPrivateSubnet1: {{pvtSub1Out.subnet.id}}\nIGW: {{igwOut.gateway_id}}\nPublicRoute: {{pubRTOut.route_table.id}}\nnatID: {{natOut.instances[0].instance_id}}\nPvtRtID: {{pvtRTOut.route_table.id}}"
         # Keeping all the subnet id  
         # content: "---\nRegion: {{VPCvariable.region}}\nVPC: {{vpcOut.vpc.id}}\nPublicSubnet1: {{pubSub1Out.subnet.id}}\nPublicSubnet2: {{pubSub2Out.subnet.id}}\nPublicSubnet3: {{pubSub3Out.subnet.id}}\nPrivateSubnet1: {{pvtSub1Out.subnet.id}}\nPrivateSubnet2: {{pvtSub2Out.subnet.id}}\nPrivateSubnet3: {{pvtSub3Out.subnet.id}}\nIGW: {{igwOut.gateway_id}}\nPublicRoute: {{pubRTOut.route_table.id}}\nnatID: {{natOut.tagged_instances[0].id}}\nPvtRtID: {{pvtRTOut.route_table.id}}"
         dest: ./var/resource_id.yml
