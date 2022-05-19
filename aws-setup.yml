@@ -127,7 +127,7 @@
       register: NATSgOut
 
     - name: Create EC2 NAT instance
-      ec2:
+      ec2_instance:
         instance_type: t2.micro
         region: "{{VPCvariable.region}}"
         image: "{{VPCvariable.nat}}"

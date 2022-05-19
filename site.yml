@@ -6,5 +6,5 @@
 - import_playbook: vprofile_stack.yml
 
 # Step 2:
-
+# ssh into bastion => download anisble => download boto (might already be avilable if using Aws linux2) => Login in  
 - import_playbook: ./ResourcesMgmt/webserver.yml
