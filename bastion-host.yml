@@ -51,7 +51,7 @@
         region: "{{resources.Region}}"
         image_id: "{{bastionVar.ami}}"
         security_group: "{{sgOut.group_id}}"
-        vpc_subnet_id: "{{resources.pubSub1Out.subnet.id}}"
+        vpc_subnet_id: "{{resources.PublicSubnet1}}"
         exact_count: 1
         tags: 
           Name: "vprofile-bastion-instance"
