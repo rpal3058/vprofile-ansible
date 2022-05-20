@@ -2,9 +2,10 @@
 ---
 #Step 1
 - import_playbook: aws-setup.yml
+#Once the complate vpc subnets NAT are set then create bastion to log into the private subnet 
 - import_playbook: bastion-host.yml
+#Setup complete stack
 - import_playbook: vprofile_stack.yml
 
-# Step 2:
 # ssh into bastion => download anisble => download boto (might already be avilable if using Aws linux2) => Login in  
 - import_playbook: ./ResourcesMgmt/webserver.yml

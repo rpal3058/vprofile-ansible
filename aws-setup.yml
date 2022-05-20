@@ -128,16 +128,17 @@
 
     - name: Create EC2 NAT instance
       ec2_instance:
+        wait: yes
+        wait_timeout: 300
         instance_type: t2.micro
         region: "{{VPCvariable.region}}"
         image_id: "{{VPCvariable.nat}}"
-        wait: yes
+        security_group: "{{NATSgOut.group_id}}"
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
+        exact_count: 1
         network:
           assign_public_ip: true
           source_dest_check: false  
-        security_group: "{{NATSgOut.group_id}}"
-        exact_count: 1
         tags:
           Name: Vprofile_NAT
       register: natOut
