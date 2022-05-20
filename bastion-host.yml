@@ -1,6 +1,7 @@
 - hosts: localhost
   gather_facts: False
-  BastionUserData: "{{ lookup('file', './EC2UserData/bastion.sh') }}"
+  vars:
+    BastionUserData: "{{ lookup('file', './EC2UserData/bastion.sh') }}"
   tasks:
     - name: Importing Bastion variables 
       include_vars: 
