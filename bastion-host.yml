@@ -1,5 +1,6 @@
 - hosts: localhost
   gather_facts: False
+  BastionUserData: "{{ lookup('file', './EC2UserData/bastion.sh') }}"
   tasks:
     - name: Importing Bastion variables 
       include_vars: 
@@ -54,6 +55,7 @@
         tags: 
           Name: "vprofile-bastion-instance"
           Project: Vprofile
+        user_data: "{{ BastionUserData }}"  
       register: bastionInstanceOut 
 
     - name: setting fact for this playbook  
