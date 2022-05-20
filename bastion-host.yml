@@ -26,7 +26,12 @@
             from_port: 22
             to_port: 22          
             cidr_ip: 0.0.0.0/0
-            rule_desc: allow all on port 22         
+            rule_desc: allow all on port 22        
+          - proto: tcp 
+            from_port: 80 
+            to_port: 80          
+            cidr_ip: 0.0.0.0/0
+            rule_desc: access to internet to download the git repo           
       register: sgOut
     
     - name: remove key pair by name if it exits
