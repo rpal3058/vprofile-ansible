@@ -1,5 +1,6 @@
 #!/bin/bash
-echo "Hi"
 sudo yum update -y
 sudo amazon-linux-extras install ansible2
-ansible --version
+git init
+git clone https://github.com/rpal3058/vprofile-ansible.git
+cd vprofile-ansible
