@@ -7,7 +7,7 @@
 
   tasks:  
     - debug:
-        msg: "{{bastionVar}}"
+        msg: "{{bastionVar.sgName}}"
 
     - name: create an security group for the bastion instance to ssh into
       ec2_group:
