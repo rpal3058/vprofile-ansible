@@ -1,13 +1,16 @@
 - hosts: localhost
   gather_facts: False
-  vars:
-    BastionUserData: "{{ lookup('file', './EC2UserData/bastion.sh') }}"
-    bastionVar: "{{ lookup('file', './var/bastion_variable.yml') }}"
-    resources: "{{ lookup('file', './var/resource_id.yml') }}"
+  BastionUserData: "{{ lookup('file', './EC2UserData/bastion.sh') }}"
+  tasks:
+    - name: Importing Bastion variables 
+      include_vars: 
+        file: ./var/bastion_variable.yml
+        name: bastionVar
 
-  tasks:  
-    - debug:
-        msg: "{{bastionVar.sgName}}"
+    - name: Importing resource id 
+      include_vars: 
+        file: ./var/resource_id.yml
+        name: resources
 
     - name: create an security group for the bastion instance to ssh into
       ec2_group:
@@ -47,7 +50,7 @@
         region: "{{resources.Region}}"
         image_id: "{{bastionVar.ami}}"
         security_group: "{{sgOut.group_id}}"
-        vpc_subnet_id: "{{resources.PublicSubnet1}}"
+        vpc_subnet_id: "{{resources.pubSub1Out.subnet.id}}"
         exact_count: 1
         tags: 
           Name: "vprofile-bastion-instance"
