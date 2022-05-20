@@ -135,7 +135,6 @@
         image_id: "{{VPCvariable.nat}}"
         security_group: "{{NATSgOut.group_id}}"
         vpc_subnet_id: "{{pubSub1Out.subnet.id}}"
-        exact_count: 1
         network:
           assign_public_ip: true
           source_dest_check: false  
@@ -193,7 +192,7 @@
         # - pvtSub3Out.subnet.id
         - igwOut.gateway_id
         - pubRTOut.route_table.id
-        - natOut.instance_id
+        - natOut.instances[0].instance_id
         - pvtRTOut.route_table.id
 
     - name: setting fact for this playbook  
