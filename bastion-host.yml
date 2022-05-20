@@ -6,6 +6,9 @@
     resources: "{{ lookup('file', './var/resource_id.yml') }}"
 
   tasks:  
+    - debug:
+      msg: "{{bastionVar}}"
+      
     - name: create an security group for the bastion instance to ssh into
       ec2_group:
         name: "{{ bastionVar.sgName }}"
