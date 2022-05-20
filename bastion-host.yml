@@ -26,12 +26,7 @@
             from_port: 22
             to_port: 22          
             cidr_ip: 0.0.0.0/0
-            rule_desc: allow all on port 22        
-          - proto: tcp 
-            from_port: 80 
-            to_port: 80          
-            cidr_ip: 0.0.0.0/0
-            rule_desc: access to internet to download the git repo           
+            rule_desc: allow all on port 22               
       register: sgOut
     
     - name: remove key pair by name if it exits
@@ -61,7 +56,7 @@
         tags: 
           Name: "vprofile-bastion-instance"
           Project: Vprofile
-        user_data: "{{ BastionUserData }}"  
+        # user_data: "{{ BastionUserData }}"  
       register: bastionInstanceOut 
 
     - name: setting fact for this playbook  
