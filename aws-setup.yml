@@ -166,7 +166,7 @@
        minutes: 5
 
     - name: Set up private subnet route table associated with each private subnet and routing all traffic to NAT
-      community.aws.ec2_vpc_route_table:
+      ec2_vpc_route_table:
         vpc_id: "{{vpcOut.vpc.id}}"
         region: "{{VPCvariable.region}}"
         resource_tags:
